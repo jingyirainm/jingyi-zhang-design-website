@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Yi — live board</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden;background:#f3f3f3}
+/* 1730×1000 stage, scaled to whatever width the board is shown at */
+.stage{position:absolute;left:0;top:0;width:1730px;height:900px;transform-origin:0 0;
+  background:radial-gradient(70% 80% at 50% 45%,#fbfbfb 0%,#f1f1f1 60%,#e9e9ea 100%)}
+.ph{--w:272px;position:absolute;width:var(--w);aspect-ratio:390/844;border-radius:calc(var(--w)*.15);background:#151515;padding:calc(var(--w)*.03);
+  box-shadow:0 0 0 1px #2a2a2a inset,0 0 0 1.4px #444,0 46px 70px -26px rgba(0,0,0,.45),0 10px 24px -14px rgba(0,0,0,.35);
+  animation:float 9s ease-in-out infinite}
+.ph:nth-child(2n){animation-duration:10s;animation-delay:-4s}
+.ph::after{content:'';position:absolute;top:calc(var(--w)*.055);left:50%;transform:translateX(-50%);width:29%;height:calc(var(--w)*.085);border-radius:99px;background:#000;z-index:3}
+.scr{position:relative;width:100%;height:100%;border-radius:calc(var(--w)*.12);overflow:hidden;background:#000}
+.scr iframe{position:absolute;left:0;top:0;width:390px;height:844px;border:0;transform-origin:0 0;pointer-events:none;background:#000}
+@keyframes float{50%{translate:0 -10px}}
+@media (prefers-reduced-motion:reduce){.ph{animation:none}}
+</style></head>
+<body>
+<div class="stage" id="stage">
+  <div class="ph" style="left:88px;top:165px"><div class="scr"><iframe data-src="index.html#demo-onboard" title="Onboarding" tabindex="-1"></iframe></div></div>
+  <div class="ph" style="left:410px;top:108px"><div class="scr"><iframe data-src="index.html#demo-today" title="Today" tabindex="-1"></iframe></div></div>
+  <div class="ph" style="left:730px;top:165px"><div class="scr"><iframe data-src="index.html#demo-reading" title="Reading" tabindex="-1"></iframe></div></div>
+  <div class="ph" style="left:1052px;top:108px"><div class="scr"><iframe data-src="index.html#demo-compose" title="Compose" tabindex="-1"></iframe></div></div>
+  <div class="ph" style="left:1372px;top:165px"><div class="scr"><iframe data-src="index.html#demo-player" title="Player" tabindex="-1"></iframe></div></div>
+</div>
+<script>
+const st=document.getElementById('stage');
+function fit(){ st.style.transform=`scale(${innerWidth/1730})`; document.querySelectorAll('.scr').forEach(s=>s.querySelector('iframe').style.transform=`scale(${s.clientWidth/390})`); }
+addEventListener('resize',fit); fit();
+// stagger loading so five app instances don't start at once
+document.querySelectorAll('iframe[data-src]').forEach((f,i)=>setTimeout(()=>{ f.src=f.dataset.src; },i*250));
+</script>
+</body></html>

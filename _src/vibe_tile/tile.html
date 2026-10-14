@@ -1,0 +1,105 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;1,400;1,600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:810px;height:1080px;overflow:hidden}
+.tile{position:relative;width:810px;height:1080px;overflow:hidden;
+  background:radial-gradient(90% 70% at 50% 38%,#e6e8e5 0%,#dcdedb 55%,#d2d4d1 100%)}
+.floor{position:absolute;left:150px;right:150px;top:900px;height:70px;border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.2),transparent);filter:blur(8px)}
+.scene{position:absolute;inset:0;perspective:1800px}
+.mon{position:absolute;left:170px;top:120px;width:470px;transform:rotateY(-16deg) rotateX(2deg);transform-style:preserve-3d}
+.bezel{position:relative;background:#1b1b1c;padding:9px;border-radius:10px;
+  box-shadow:-12px 0 0 -5px #9a9c9f, 0 40px 60px -26px rgba(0,0,0,.45), 0 0 0 1px #3a3a3c inset}
+.bezel::after{content:'';position:absolute;inset:0;border-radius:10px;background:linear-gradient(115deg,rgba(255,255,255,.10) 0%,rgba(255,255,255,0) 35%);pointer-events:none}
+.screen{position:relative;width:452px;height:603px;overflow:hidden;background:#FDF5F7}
+canvas{position:absolute;inset:0;width:100%;height:100%}
+.neck{position:absolute;left:50%;margin-left:-30px;top:618px;width:60px;height:158px;background:linear-gradient(90deg,#b9bbbe,#e3e4e6 45%,#c5c7ca)}
+.base{position:absolute;left:50%;margin-left:-115px;top:770px;width:230px;height:14px;border-radius:50%/60%;background:linear-gradient(#eceded,#c6c8cb);box-shadow:0 10px 18px -8px rgba(0,0,0,.35)}
+.ov{position:absolute;inset:4%;display:flex;flex-direction:column;justify-content:space-between;color:#111;font-family:Cormorant,serif;pointer-events:none}
+.top{font-size:9.5px;letter-spacing:.15em;opacity:.5;line-height:1.5;max-width:82%}
+.bot{display:flex;justify-content:space-between;align-items:flex-end}
+.cam{width:74px;aspect-ratio:3/4;border:1px solid #D4B5D866;background:#e9e9e9ee;position:relative;overflow:hidden;box-shadow:0 10px 24px -10px rgba(0,0,0,.35)}
+.cam svg{position:absolute;inset:0;width:100%;height:100%}
+.cam::after{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,#000 .3px,transparent .3px);background-size:2px 2px;opacity:.25}
+.sig{text-align:right}
+.sig .nm{font-size:40px;line-height:.6;opacity:.6;transform:rotate(-2deg);transform-origin:bottom right;white-space:nowrap}
+.sig .cr{font-family:'JetBrains Mono',monospace;font-size:5px;letter-spacing:.4em;text-transform:uppercase;opacity:.25;margin-top:14px}
+.hints{position:absolute;left:4%;bottom:21%;font-family:Cormorant,serif;font-style:italic;font-size:12.5px;line-height:1.4;color:#111}
+.hints div{transition:opacity .3s,transform .3s;opacity:.45}
+.hints div.on{opacity:1;transform:translateX(4px);font-weight:600}
+.finger{position:absolute;width:16px;height:16px;margin:-8px 0 0 -8px;border-radius:50%;border:1.5px solid rgba(17,17,17,.55);background:rgba(255,255,255,.35);box-shadow:0 0 0 5px rgba(255,255,255,.18);transition:opacity .4s;opacity:0}
+.finger.on{opacity:1}
+.save{position:absolute;right:4%;top:4%;font-family:Cormorant,serif;font-style:italic;font-size:10px;letter-spacing:.1em;padding:4px 10px;border:1px solid rgba(0,0,0,.12);border-radius:99px;background:rgba(255,255,255,.35);color:#111}
+</style></head><body>
+<div class="tile"><div class="floor"></div>
+<div class="scene"><div class="mon">
+  <div class="bezel"><div class="screen" id="screen">
+    <canvas id="cv"></canvas>
+    <div class="ov">
+      <div class="top">I am thinking (you) at (New York) on (<span id="dt"></span>)</div>
+      <div class="bot">
+        <div class="cam"><svg viewBox="0 0 60 80" fill="none" stroke="#222" stroke-width="1.1" stroke-linecap="round">
+          <path d="M30 14c-11 0-17 8-17 20 0 13 8 24 17 24s17-11 17-24c0-12-6-20-17-20z" opacity=".75"/>
+          <path id="eyeL" d="M22 33q3-2.5 6 0q-3 2.5-6 0z"/><path id="eyeR" d="M32 33q3-2.5 6 0q-3 2.5-6 0z"/>
+          <path d="M30 37v6l-2 1" opacity=".6"/>
+          <ellipse id="mouth" cx="30" cy="49" rx="4" ry=".8"/>
+          <path d="M18 64c4-3 8-4 12-4s8 1 12 4" opacity=".5"/>
+        </svg></div>
+        <div class="sig"><div class="nm">Jingyi</div><div class="cr">Created by Rainmelon Studio</div></div>
+      </div>
+    </div>
+    <div class="hints"><div id="h0">blow → add color</div><div id="h1">blink → add figure</div><div id="h2">finger → blend</div></div>
+    <div class="save">finish &amp; save</div>
+    <div class="finger" id="finger"></div>
+  </div></div>
+  <div class="neck"></div><div class="base"></div>
+</div></div>
+</div>
+<script>
+// Ebru marbling, ported from the app's MarblingCanvas (drops, tine, shape recovery, stars)
+const W=452,H=603,NR=120,dpr=2, cv=document.getElementById('cv'), ctx=cv.getContext('2d');
+cv.width=W*dpr; cv.height=H*dpr;
+const BG='#FDF5F7', COLORS=['#C79BD0','#97B4CC','#E2B3CF','#E6B5A2','#A99BDB','#9CCAC4'];
+var drops=[], stars=[], ci=0;
+const next=()=>COLORS[(ci++)%COLORS.length];
+function displace(t,cx,cy,r){const dx=t.x-cx,dy=t.y-cy,d2=dx*dx+dy*dy;if(!d2)return;const s=Math.sqrt(1+r*r/d2);t.x=cx+dx*s;t.y=cy+dy*s;}
+function addDrop(x,y,r,color){drops.forEach(d=>{displace(d.center,x,y,r);d.points.forEach(p=>displace(p,x,y,r));});
+  const pts=[];for(let i=0;i<NR;i++){const a=i/NR*Math.PI*2;pts.push({x:x+Math.cos(a)*r,y:y+Math.sin(a)*r});}
+  drops.push({points:pts,color,center:{x,y},radius:r}); if(drops.length>26)drops.shift();}
+function tine(p1,p2,z,mu){const dx=p2.x-p1.x,dy=p2.y-p1.y,L=Math.hypot(dx,dy);if(L<.5)return;const ux=dx/L,uy=dy/L;
+  const f=p=>{const vx=p.x-p1.x,vy=p.y-p1.y,pr=Math.max(0,Math.min(L,vx*ux+vy*uy)),cx=p1.x+pr*ux,cy=p1.y+pr*uy;const s=z*Math.pow(2,-Math.hypot(p.x-cx,p.y-cy)/mu);p.x+=ux*s;p.y+=uy*s;};
+  drops.forEach(d=>{d.points.forEach(f);f(d.center);});}
+function spawnStars(x,y){for(let i=0;i<3;i++){const a=Math.random()*Math.PI*2,s=.8+Math.random()*2;stars.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,size:10+Math.random()*10,life:1,ph:Math.random()*6});}}
+function starPath(x,y,r){ctx.beginPath();for(let i=0;i<8;i++){const a=i*Math.PI/4,rr=i%2?r*.28:r;ctx.lineTo(x+Math.cos(a)*rr,y+Math.sin(a)*rr);}ctx.closePath();}
+function draw(t){
+  drops.forEach(d=>{const n=d.points.length;d.points=d.points.map((p,i)=>{const a=d.points[(i-1+n)%n],b=d.points[(i+1)%n],sx=(a.x+b.x)/2,sy=(a.y+b.y)/2,dx=p.x-d.center.x,dy=p.y-d.center.y,dist=Math.hypot(dx,dy),k=dist?d.radius/dist:1;
+    return{x:p.x+(sx-p.x)*.015+(d.center.x+dx*k-p.x)*.003,y:p.y+(sy-p.y)*.015+(d.center.y+dy*k-p.y)*.003};});});
+  stars.forEach(s=>{s.vx*=.98;s.vy*=.98;s.x+=s.vx;s.y+=s.vy;s.life-=.006;}); stars=stars.filter(s=>s.life>0);
+  ctx.setTransform(dpr,0,0,dpr,0,0); ctx.fillStyle=BG; ctx.fillRect(0,0,W,H);
+  const poly=d=>{ctx.beginPath();ctx.moveTo(d.points[0].x,d.points[0].y);for(let i=1;i<d.points.length;i++)ctx.lineTo(d.points[i].x,d.points[i].y);ctx.closePath();};
+  ctx.save();ctx.filter='blur(14px)';drops.forEach(d=>{poly(d);ctx.globalAlpha=.45;ctx.fillStyle=d.color;ctx.fill();});ctx.restore();
+  ctx.save();ctx.filter='blur(3px)';ctx.globalAlpha=.78;drops.forEach(d=>{poly(d);ctx.fillStyle=d.color;ctx.fill();});ctx.restore();
+  stars.forEach(s=>{ctx.save();ctx.globalAlpha=Math.min(1,s.life*1.4)*.8;ctx.fillStyle='#111';starPath(s.x,s.y,s.size*(.85+.15*Math.sin(t/300+s.ph)));ctx.fill();ctx.restore();});
+}
+// scripted performance: blow, blink, finger — loops every 13 s
+const mouth=document.getElementById('mouth'), eL=document.getElementById('eyeL'), eR=document.getElementById('eyeR'), fing=document.getElementById('finger');
+const hint=i=>['h0','h1','h2'].forEach((h,j)=>document.getElementById(h).classList.toggle('on',i===j));
+var T0=performance.now(), last=null, cycle=0, done=new Set();
+const blowAt=[400,1900,3600,5400,8400], blinkAt=[3000,7200,10300];
+function frame(now){
+  let t=now-T0;
+  if(t>13000){ drops=[];stars=[];done.clear();T0=now;t=0;cycle++; }
+  blowAt.forEach((bt,k)=>{ if(t>bt&&!done.has('b'+k)){done.add('b'+k);hint(0);mouth.setAttribute('ry','4.2');setTimeout(()=>mouth.setAttribute('ry','.8'),520);
+      const x=W*(.36+((k*37+cycle*13)%30)/100),y=H*(.3+((k*23+cycle*7)%34)/100),r=W*(.11+(k%3)*.04);
+      for(let i=0;i<2+(k%2);i++)addDrop(x+(Math.random()-.5)*40,y+(Math.random()-.5)*40,r*(.6+Math.random()*.5),next()); }});
+  blinkAt.forEach((bt,k)=>{ if(t>bt&&!done.has('k'+k)){done.add('k'+k);hint(1);[eL,eR].forEach(e=>e.setAttribute('transform','translate(0 33) scale(1 .1) translate(0 -33)'));
+      setTimeout(()=>[eL,eR].forEach(e=>e.removeAttribute('transform')),260); spawnStars(W*.42,H*.36); spawnStars(W*.58,H*.36); }});
+  const stir=(t>4300&&t<7000)||(t>9100&&t<12300);
+  fing.classList.toggle('on',stir);
+  if(stir){ hint(2); const u=t/700, x=W*(.5+.32*Math.sin(u)), y=H*(.46+.22*Math.sin(u*1.7+1));
+    fing.style.left=x+'px'; fing.style.top=y+'px'; if(last) tine(last,{x,y},18,50); last={x,y}; } else last=null;
+  draw(now); requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+(function clock(){document.getElementById('dt').textContent=new Date().toLocaleString('en-US',{month:'short',day:'numeric',year:'numeric',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false});setTimeout(clock,1000);})();
+</script></body></html>

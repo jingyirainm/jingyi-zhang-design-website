@@ -1,0 +1,92 @@
+/* Page reveal: every page dissolves in slowly; images surface one by one as they enter view */
+@keyframes rs-dissolve{from{opacity:0}to{opacity:1}}
+@keyframes rs-rise{from{opacity:0;filter:blur(14px);transform:translateY(36px)}to{opacity:1;filter:none;transform:none}}
+@keyframes rs-out{from{opacity:1}to{opacity:0}}
+.main,.pin{animation:rs-dissolve 1.4s cubic-bezier(.25,.6,.2,1) both}
+.pin{animation-duration:1.1s}
+/* the side bar never fades: it is the fixed frame of the site */
+.pin-left{animation:none!important}
+.main{animation:rs-rise 1.2s cubic-bezier(.22,.8,.2,1) .08s backwards}
+.main.rs-out{animation:rs-out .38s ease forwards}
+html.rs-leaving .main,html.rs-leaving .pin:not(.pin-left){animation:rs-out .45s ease forwards}
+.dz{opacity:0;filter:blur(10px);transition:opacity 1.3s cubic-bezier(.25,.6,.2,1),filter 1.5s cubic-bezier(.25,.6,.2,1)}
+.dz.dz-in{opacity:1;filter:blur(0)}
+/* side bar stays put — it never scrolls */
+.pin-left .page-layout{overflow:hidden!important;overscroll-behavior:contain}
+@media (prefers-reduced-motion:reduce){.main,.pin{animation:none}.dz{opacity:1;filter:none;transition:none}}
+
+/* side bar footer: photo + social icons pinned to the bottom of the window */
+.pin-left .side-foot{position:fixed;left:var(--side-l,2.7vw);bottom:5vh;width:var(--side-w,18.5vw);z-index:1}
+.pin-left .side-foot media-item{display:block;width:100%}
+.pin-left .side-bio{display:block;margin-bottom:2.2em}
+.pin-left .side-foot column-set{display:block;margin-top:1.4em}
+.pin-left .so-row{display:flex;gap:1.2em}
+
+/* lift the whole layout a little (desktop; the Change Mode control stays where it is) */
+@media (min-width:768px){body:not(.case-mode) .main{margin-top:-2.4rem}body:not(.case-mode) .pin-left{top:-2.4rem;height:calc(100vh + 2.4rem)}}
+
+
+
+/* project detail pages: flat white page, no card / shadow / overlay — same frame as the About page */
+body:not(.case-mode):not(.page-homepage-desktop-1):not(.page-work):not(.page-menu):not(.page-about):not(.page-list) .main .page{justify-content:flex-end!important;background:none!important}
+body:not(.case-mode):not(.page-homepage-desktop-1):not(.page-work):not(.page-menu):not(.page-about):not(.page-list) .main .page-content{background:transparent!important;box-shadow:none!important;border-radius:0!important;border:0!important}
+@media (min-width:768px){
+  body:not(.case-mode):not(.page-homepage-desktop-1):not(.page-work):not(.page-menu):not(.page-about):not(.page-list) .main .page{justify-content:center!important;padding-left:calc(19.2vw + 1vw)}
+  body:not(.case-mode):not(.page-homepage-desktop-1):not(.page-work):not(.page-menu):not(.page-about):not(.page-list) .main .page-layout{width:100%;max-width:64vw!important;padding:3rem!important}   /* same frame as the Work page */
+  body:not(.case-mode):not(.page-homepage-desktop-1):not(.page-work):not(.page-menu):not(.page-about):not(.page-list) .main .page-content{padding:2rem!important}
+}
+
+
+/* side bar: breathing room top and bottom; Change Mode + social icons share the bottom-left corner */
+.pin-left .side-foot column-set{margin-top:0}
+.pin-left .side-foot .th-float.th-side{position:static;display:flex;width:max-content;margin:1.4em 0 0;box-shadow:none;background:transparent;padding:0;border:0;font:400 12px/1 Inter,'Diatype',-apple-system,sans-serif;color:inherit;opacity:.75}
+.pin-left .side-foot .th-float.th-side:hover{opacity:1}
+
+/* side bar: nudged 2.5% down and 1% in from the left edge (desktop) */
+@media (min-width:768px){.pin-left .page-content{padding-top:calc(1rem + 2.5vh)!important;padding-left:calc(1rem + 1vw)!important}[id="L1192837497"] .page-layout{max-width:calc(19.2% + 1vw)!important}}
+
+/* Work + Project pages: centred in the space to the right of the side bar (desktop) */
+@media (min-width:768px){
+  body.page-work .main .page,body.page-menu .main .page{justify-content:center!important;padding-left:calc(19.2vw + 1vw)}
+  body.page-work [id="T3057851291"] .page-layout{max-width:64vw!important}
+  body.page-menu [id="N1895072596"] .page-layout{max-width:68vw!important}
+}
+
+.pin-left .so-row.so-list{flex-direction:column;align-items:flex-start;gap:.7em}
+.pin-left .side-foot .th-float.th-side{font-size:12px!important;line-height:1.2!important;gap:.55em}
+.pin-left .side-foot .th-float.th-side .th-ico{width:13px;height:13px}
+
+/* Project pages: title · (blank line) · first image · (blank line) · Role / Medium / … row —
+   same look as the info row in the Project page's expanded view. Kept in this site-wide sheet so it
+   also applies after soft navigation (which only swaps <main>). */
+.pj-head{margin:0 0 2.2em;font-family:Inter,'Diatype',-apple-system,sans-serif}
+.pj-title{margin:0!important;font:300 clamp(1.7rem,2.6vw,2.4rem)/1.12 Inter,'Diatype',-apple-system,sans-serif!important;letter-spacing:-.02em;color:#111!important}
+.pj-meta{display:flex;flex-wrap:wrap;gap:.6rem 2.2rem;margin:2.2em 0 2.4em;padding:0;font-family:Inter,'Diatype',-apple-system,sans-serif}
+.pj-meta>div{min-width:0;max-width:30rem;margin:0;padding:0}
+.pj-meta dt{display:block;margin:0 0 3px;padding:0;font-size:.76rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase;line-height:1.3;color:rgba(17,17,17,.42)}
+.pj-meta dd{display:block;margin:0!important;padding:0;font-size:.95rem;font-weight:400;line-height:1.4;color:#111}
+.mobile .pj-meta{gap:.6rem 1.4rem}
+.mobile .pj-meta dd{font-size:.82rem}
+
+/* lightbox: × close + ‹ › arrows (arrows only when the page has several images) */
+.lightbox{cursor:default!important}
+.lightbox .lb-stage{transition:opacity .16s ease}
+.lightbox .lb-stage.lb-fade{opacity:0}
+.lightbox .lb-stage img,.lightbox .lb-stage video{max-height:calc(100vh - 7rem)!important}
+.lightbox .lb-close,.lightbox .lb-nav{position:absolute;z-index:2;width:44px;height:44px;border-radius:50%;border:1px solid rgba(17,17,17,.14);background:rgba(255,255,255,.92);color:#111;display:flex;align-items:center;justify-content:center;padding:0;cursor:pointer;transition:background .2s,color .2s,border-color .2s,transform .2s}
+.lightbox .lb-close{top:1.2rem;right:1.4rem;font:300 26px/1 Inter,system-ui,sans-serif}
+.lightbox .lb-nav{top:50%;transform:translateY(-50%);display:none}
+.lightbox.lb-multi .lb-nav{display:flex}
+.lightbox .lb-prev{left:1.4rem}
+.lightbox .lb-next{right:1.4rem}
+.lightbox .lb-nav svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}
+.lightbox .lb-close:hover,.lightbox .lb-nav:hover{background:#111;color:#fff;border-color:#111}
+.lightbox{padding:3.5rem 5.5rem!important}
+@media (max-width:767px){.lightbox{padding:4rem 1rem!important}.lightbox .lb-nav{top:auto;bottom:1.2rem;transform:none}.lightbox .lb-prev{left:calc(50% - 54px)}.lightbox .lb-next{right:calc(50% - 54px)}}
+
+/* Shared landing-page motion: opacity only, with no blur or translation. */
+:is(.page-homepage-desktop-1,.page-work,.page-menu,.page-about) .main{animation-name:rs-dissolve}
+:is(.page-homepage-desktop-1,.page-work,.page-menu,.page-about) .dz{filter:none!important;transition:opacity .8s ease}
+body.page-menu .mf-sec{filter:none!important;transition:opacity .45s ease}
+body.page-about .ab-rv{transform:none!important;transition:opacity .8s ease .2s!important}
+@media(prefers-reduced-motion:reduce){body .main,body .pin{animation:none!important}body .dz,body .ab-rv{opacity:1!important;filter:none!important;transform:none!important;transition:none!important}}

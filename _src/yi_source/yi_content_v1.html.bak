@@ -1,0 +1,116 @@
+<br />
+<column-set mobile-gutter="0rem" mobile-stack="false"><column-unit slot="0" span="2"><div style="text-align: left"><span class="number" style="color: rgb(255, 255, 255); display: inline-block; border-width: 0.1rem; border-color: rgba(0, 0, 0, 0.85); border-style: solid; border-radius: 1rem; background: rgb(0, 0, 0);"><b>&nbsp;&nbsp; 007 &nbsp;</b></span></div></column-unit><column-unit slot="1" span="8"><div style="text-align: center">Yi 易 — I Ching Soundscapes, from Installation to App</div></column-unit><column-unit slot="2" span="2"><div style="text-align: right"><a class="number" href="work" rel="history" style="color: rgb(255, 255, 255); display: inline-block; border-width: 0.1rem; border-color: rgba(0, 0, 0, 0.85); border-style: solid; border-radius: 1rem; background: rgb(0, 0, 0);"><b>&nbsp; Exit Page &nbsp;</b></a></div></column-unit></column-set><hr /><b><span style="--font-scale: 1.4;"><br />
+Yi 易 — I Ching Soundscapes</span></b><br /><br />
+<media-item hash="YI01" media-style="border-radius: 2rem; filter: drop-shadow(0.1rem 0.1rem 0.5rem rgba(0, 0, 0, 0.25));"></media-item><br />
+<span style="color: rgba(6, 0, 0, 0.85);">I turned <a href="a-semiotic-study-on-iching" rel="history"><i>A Semiotic Study on the I Ching</i></a>, a 2024 sound-visualization installation, into a mobile product. Eight natural sounds, each drawn as a generative image in p5.js, become sixty-four hexagrams you can cast, compose and listen to, and the app teaches the <i>I Ching</i> as what the installation argued it is: a human-made, open system of symbols.<br />
+<br />
+<column-set gutter="1"><column-unit slot="0"><span style="color: rgba(6, 0, 0, 0.85);">ROLE<br />
+<br />PRODUCT DESIGNER<br />SOUND &amp; VISUAL ARTIST</span></column-unit><column-unit slot="1"><span style="color: rgba(6, 0, 0, 0.85);">SCOPE<br />
+<br />Content Strategy &amp; IA<br />UIUX Design<br />Interactive Prototype (HTML · Web Audio)</span></column-unit></column-set></span><br />
+<br />
+<marquee-set speed="-10"><marquee-inner slot="contents"><column-set><column-unit slot="0"><span class="diatype" style="color: rgba(6, 0, 0, 0.85);"><b>｜</b><i>2</i> symbols<b> ｜</b><i>8</i> trigrams · 8 recorded sounds<b> ｜</b><i>64</i> playable hexagrams<b> ｜</b><i>4</i> authored scenes<b> ｜</b><i>5</i> tabs<b> ｜</b><i>15</i> key screens<b> ｜</b><i>1</i> open framework<b> ｜</b></span></column-unit></column-set></marquee-inner></marquee-set><br />
+<br />
+<div class="yix-live"><div class="yix-phone"><iframe src="yi-app/index.html?bare" title="Yi live prototype" loading="lazy"></iframe></div><div class="yix-livecap"><b>Live prototype</b><br />Tap through it here, or <a href="yi-app/index.html" target="_blank">open it full screen</a>. Turn your sound on: the prototype synthesizes a stand-in for each field recording.</div></div>
+<br />
+<br />
+@@SEC Overview &amp; Context@@
+<h2 style="color: rgba(17, 1, 1, 0.7);">The installation already had a system. It just didn't have a way in.</h2><br />
+The original project starts from a premise: read as literature, the <i>I Ching</i> is not a stone tablet left by gods but a genre of writing guided by visual logic. Two symbols, yin and yang, combine into eight trigrams, and the trigrams pair into sixty-four hexagrams. Its creative process is recognizable, comprehensible and even replicable, which makes it an open framework that can be rewritten.<br />
+<br />
+In the installation I rewrote it with sound. I recorded eight natural elements, one per trigram, visualized each recording in p5.js, and paired the images to depict natural scenes.<br />
+<br />
+<media-item hash="YI08" media-style="border-radius: 1.5rem;"></media-item>
+<span class="caption">The eight trigram renders from the installation, cropped to the square format the app uses. Left to right: Heaven, Earth, Wind, Fire, Rain, Water, Mountain, Thunder.</span><br />
+<br />
+<div class="yix-ladder"><div><i>2</i><b>symbols</b><span>yin ⚋ · yang ⚊</span></div><div><i>8</i><b>trigrams</b><span>one natural sound each</span></div><div><i>64</i><b>hexagrams</b><span>every upper × lower pairing</span></div><div class="hot"><i>4 → 64</i><b>made playable</b><span>this project</span></div></div>
+<span class="caption">The structure the installation explored, and the gap the app closes: only four of the sixty-four combinations had ever been rendered.</span><br />
+<br />
+<br />
+@@SEC The Problem@@
+<h2 style="color: rgba(0, 0, 0, 0.85);">A gallery piece is linear, one room at a time. The idea underneath it is combinatorial.</h2><br />
+The installation showed the eight sounds and four finished scenes, Tai, Jia Ren, Xian and Xie, in a fixed sequence. Visitors saw the result of the framework but never used it. Meanwhile, most I Ching apps go the other way: dense text, fortune-telling language, and none of the structure that makes the book readable.<br />
+<br />
+<div class="yix-cards"><div><i>01</i><b>The system was invisible</b>Visitors met four finished hexagrams without learning how two lines become eight trigrams and sixty-four hexagrams.</div><div><i>02</i><b>60 of 64 were missing</b>Only four combinations had visuals and sound. A product needs every hexagram to be reachable and playable.</div><div><i>03</i><b>Divination framing</b>Category conventions push toward fortune telling, which contradicts the project's reading of the book as human-made language.</div><div><i>04</i><b>Sound in a silent medium</b>The work is meant to be heard. On a phone, sound has to be the main interface, not an attachment.</div></div>
+<br />
+<div class="yix-hmw">How might we turn a gallery study of the <i>I Ching</i>'s visual logic into a daily listening product, without losing the idea that the book is an open framework anyone can rewrite?</div>
+<br />
+<br />
+@@SEC Migrating the Work@@
+<h2 style="color: rgba(0, 0, 0, 0.85);">Every part of the original page has a home in the app.</h2><br />
+Before designing screens, I mapped each piece of the installation page (introduction, procedure, the two visualization parts and the four scenes) to a product surface. Nothing was dropped; each part changed from something to look at into something to use.<br />
+<br />
+<div class="yix-map"><table>
+<thead><tr><th>In the installation</th><th></th><th>In the app</th><th>What changes</th></tr></thead>
+<tbody>
+<tr><td>Introduction: the I Ching as an open framework</td><td class="ar">→</td><td><b>Onboarding</b> · About</td><td>Three cards: 2 → 8 → 64, “not a stone tablet”, and how the sounds were made</td></tr>
+<tr><td>Procedures, steps 1–5</td><td class="ar">→</td><td><b>About › Method</b></td><td>The making process is published inside the product, as the project intended</td></tr>
+<tr><td>Visualization Part 1: the eight Gua</td><td class="ar">→</td><td><b>Eight</b> tab · trigram sheet</td><td>Each render becomes a card with its lines, recording and the eight hexagrams it anchors</td></tr>
+<tr><td>Part 2, step 1: combination formulas</td><td class="ar">→</td><td><b>Compose</b></td><td>“Sky + Earth = Tai” becomes an upper/lower picker that resolves any of the 64</td></tr>
+<tr><td>Part 2, step 2: four hexagram scenes</td><td class="ar">→</td><td><b>Scenes</b> on Today · Sixty-four</td><td>Authored scenes are featured, with their English and Chinese titles</td></tr>
+<tr><td>Individual audio tracks</td><td class="ar">→</td><td><b>Player</b></td><td>Upper and lower sounds play as two layers with their own volume</td></tr>
+<tr><td>Vibrating lines drawn in p5.js</td><td class="ar">→</td><td><b>Live waveforms</b> · starfield</td><td>The UI draws the playing audio as the same white lines</td></tr>
+</tbody></table></div>
+<br />
+<br />
+@@SEC Design Principles@@
+<h2 style="color: rgba(0, 0, 0, 0.85);">Four rules that kept the product true to the artwork.</h2><br />
+<div class="yix-cards"><div><i>01</i><b>Teach the system, not the superstition</b>Show the structure first: lines, trigrams, pairings. The coin cast is a way into the structure, not a prediction.</div><div><i>02</i><b>Sound first, text second</b>Every screen has a play affordance within one tap. Copy is short and stays out of the way of listening.</div><div><i>03</i><b>Every hexagram is reachable</b>Eight recordings × eight gives sixty-four mixes. Four authored scenes sit on top, and the rest are generated from the same rules.</div><div><i>04</i><b>Keep the installation's language</b>Black ground, warm white lines, a serif voice, and only one accent, gold, reserved for changing lines.</div></div>
+<br />
+<br />
+@@SEC The Solution@@
+<h2 style="color: rgba(0, 0, 0, 0.85);">Five tabs: Today, Eight, Compose, Sixty-four, About.</h2><br />
+<b>1 · Onboarding: the framework in three cards</b><br />
+The installation's introduction is compressed into three cards. The first sets the tone, the second animates the 2 → 8 → 64 ladder, and the third shows the eight renders as a mosaic so people hear what they are about to open. A drifting starfield, taken from the title render, sits behind all three.<br />
+<br />
+<media-item hash="YI02" media-style="border-radius: 2rem;"></media-item><br />
+<br />
+<b>2 · Today and Cast: a ritual that ends in listening</b><br />
+Casting follows the traditional three-coin method: heads count three and tails two, six tosses build the hexagram from the bottom up, and totals of 6 or 9 are changing lines. The reading screen shows the hexagram, its two trigrams, what you will hear, and, when lines change, the hexagram it becomes, marked in gold. The main action is <i>Listen</i>, not <i>Read more</i>.<br />
+<br />
+<media-item hash="YI03" media-style="border-radius: 2rem;"></media-item><br />
+<br />
+<div class="yix-cast"><div><b>6</b><span>old yin</span><em>changing</em></div><div><b>7</b><span>young yang</span></div><div><b>8</b><span>young yin</span></div><div><b>9</b><span>old yang</span><em>changing</em></div></div>
+<span class="caption">Line values from three coins (heads = 3, tails = 2). Changing lines flip to produce the second hexagram.</span><br />
+<br />
+<b>3 · Eight: the trigrams as instruments</b><br />
+This tab carries Visualization Part 1. Each trigram card loops its p5.js render. Opening one shows its lines, its recording and the eight hexagrams it anchors, so the step from one sound to sixty-four is always one tap away.<br />
+<br />
+<media-item hash="YI04" media-style="border-radius: 2rem;"></media-item><br />
+<br />
+<b>4 · Compose and Sixty-four: the formulas, made interactive</b><br />
+The installation wrote formulas such as <i>Sky + Earth = Tai</i>. Compose turns them into two pickers: choose an upper and a lower trigram, and the app resolves the hexagram from the King Wen table, layers the two renders and plays both sounds. Sixty-four is the full library, with the four authored scenes highlighted and a gold dot on hexagrams you have already heard.<br />
+<br />
+<media-item hash="YI05" media-style="border-radius: 2rem;"></media-item><br />
+<br />
+<b>5 · The Player: two sounds, drawn as they play</b><br />
+Upper and lower trigrams play as separate layers with their own sliders. Each layer's live waveform is drawn as a white line, the same vibrating lines that sat under every render in the installation. A sleep timer, previous and next, and <i>Change</i> (swap upper and lower) let people explore by ear.<br />
+<br />
+<media-item hash="YI06" media-style="border-radius: 2rem;"></media-item><br />
+<br />
+<br />
+@@SEC Under the Hood@@
+<h2 style="color: rgba(0, 0, 0, 0.85);">One table, eight renders, eight sounds: the whole app is generated from them.</h2><br />
+<div class="yix-cards three"><div><i>Data</i><b>8 × 8 King Wen table</b>Every screen resolves a hexagram from its lower and upper trigram. Glyphs, names, readings and changing lines are all derived from the same six-line array, so none of the 64 is hand-built.</div><div><i>Visuals</i><b>From 1200 × 800 to square</b>Each p5.js render was cropped to its square canvas and re-encoded as an animated WebP. Non-authored hexagrams layer the upper render over the lower with a screen blend and a soft mask.</div><div><i>Sound</i><b>Two-layer Web Audio graph</b>Each trigram is its own source → gain → analyser chain. The analyser drives the waveform lines. In the prototype, synthesized textures stand in for the field recordings.</div></div>
+<br />
+<div class="yix-tokens"><div style="background:#000;color:#f2efe8"><b>Ground</b>#000000</div><div style="background:#f2efe8;color:#000"><b>Line</b>#F2EFE8</div><div style="background:#141414;color:#f2efe8"><b>Panel</b>#141414</div><div style="background:#e9c27a;color:#000"><b>Change</b>#E9C27A</div><div class="type"><b style="font-family:'Cormorant Garamond',Newsreader,serif;font-weight:300;font-size:2.4rem;line-height:1">易 Yi · Aa</b>Cormorant Garamond, display<br />Inter, interface</div></div>
+<span class="caption">The design tokens. Gold appears only on changing lines, the one moment in a reading where the hexagram moves.</span><br />
+<br />
+<br />
+@@SEC Outcome &amp; Next Steps@@
+<h2 style="color: rgba(0, 0, 0, 0.85);">From four finished images to a system anyone can play.</h2><br />
+<div class="adx-metrics"><div><b>64</b><span>hexagrams reachable and playable, up from 4 in the installation</span></div><div><b>100%</b><span>of the original page's content mapped to a product surface</span></div><div><b>1 tap</b><span>from any screen to sound</span></div><div><b>15</b><span>key screens in a working, clickable prototype</span></div></div>
+This is a concept project, so I have not run it with users yet. These are the signals I would measure in a first test: whether people who finish onboarding can explain how 2 lines become 64 hexagrams, how often a cast leads to <i>Listen</i> rather than an exit, how many hexagrams people discover through Compose, and average listening time per session.<br />
+<br />
+<b>Next</b><br />
+· Replace the synthesized stand-ins with the original eight field recordings.<br />
+· Extend the p5.js pipeline to author the remaining 60 scenes, each with a title in English and Chinese.<br />
+· Add haptics to the coin toss, and a lock-screen player for sleep and focus listening.<br />
+· Accessibility: spoken labels for every glyph (“Hexagram 40, Xie: thunder over water”) and a reduced-motion mode for the animated renders.<br />
+<br />
+<media-item hash="YI07" media-style="border-radius: 2rem;"></media-item>
+<span class="caption">About › Method publishes the five steps of the original procedure inside the app.</span><br />
+<br />
+<b>Reflection</b><br />
+The installation argued that the <i>I Ching</i> is a framework rather than a verdict. As an installation it could only show that. The app lets people use it: they can combine any two sounds, hear the result and see the rule that produced it. For me, that is the difference between an artwork about a system and a product built on one.<br />
+<br />
+<br />

@@ -1,0 +1,702 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#000000">
+<title>Yi 易 — I Ching Soundscapes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#f2efe8; --mute:rgba(242,239,232,.52); --faint:rgba(242,239,232,.28); --hair:rgba(242,239,232,.12);
+  --bg:#000; --panel:#0c0c0c; --panel2:#151515;
+  --serif:'Cormorant Garamond','Newsreader','Songti SC','Noto Serif SC',Georgia,serif;
+  --sans:Inter,-apple-system,'Helvetica Neue',Arial,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{font-family:var(--sans);background:#ffffff;color:#111;display:flex;align-items:center;justify-content:center;gap:72px;min-height:100vh;padding:40px 24px}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+img{display:block}
+
+/* ---------- desktop stage ---------- */
+.side{max-width:330px;font-size:14px;line-height:1.55;color:rgba(0,0,0,.7)}
+.side h1{font-family:var(--serif);font-weight:400;font-size:44px;line-height:1;color:#000;margin-bottom:14px}
+.side h1 em{font-style:italic}
+.side p{margin-bottom:12px}
+.side .k{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(0,0,0,.45);margin:22px 0 8px}
+.side .jump{display:flex;flex-wrap:wrap;gap:6px}
+.side .jump button{border:1px solid rgba(0,0,0,.25);border-radius:999px;padding:5px 12px;font-size:12px;color:#000}
+.side .jump button:hover{background:#000;color:#fff}
+.device{width:390px;height:844px;border-radius:56px;background:#000;position:relative;flex:none;
+  box-shadow:0 0 0 11px #1b1b1b,0 0 0 12px #3a3a3a,0 40px 80px -20px rgba(0,0,0,.45)}
+.device::before{content:'';position:absolute;top:11px;left:50%;transform:translateX(-50%);width:120px;height:34px;border-radius:20px;background:#000;z-index:60}
+.app{position:absolute;inset:0;border-radius:56px;overflow:hidden;background:var(--bg);color:var(--ink)}
+body.bare{background:#000;padding:0;display:block}
+body.bare .side{display:none}
+body.bare .device{width:100vw;height:100vh;border-radius:0;box-shadow:none}
+body.bare .device::before{display:none}
+body.bare .app{border-radius:0}
+@media (max-width:760px){
+  body{padding:0;display:block;background:#000}
+  .side{display:none}
+  .device{width:100vw;height:100vh;height:100dvh;border-radius:0;box-shadow:none}
+  .device::before{display:none}
+  .app{border-radius:0}
+}
+
+/* ---------- chrome ---------- */
+.status{position:absolute;top:0;left:0;right:0;height:50px;display:flex;align-items:center;justify-content:space-between;padding:6px 34px 0 40px;font-size:15px;font-weight:600;z-index:50;pointer-events:none}
+.status .ic{display:flex;gap:6px;align-items:center}
+.status .bat{width:25px;height:12px;border:1.3px solid var(--ink);border-radius:4px;position:relative;opacity:.9}
+.status .bat::after{content:'';position:absolute;inset:1.5px 5px 1.5px 1.5px;background:var(--ink);border-radius:1.5px}
+.screens{position:absolute;inset:0}
+.screen{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;padding:62px 22px 112px;opacity:0;pointer-events:none;transition:opacity .35s ease;scrollbar-width:none}
+.screen::-webkit-scrollbar{display:none}
+.screen.on{opacity:1;pointer-events:auto}
+.tabs{position:absolute;left:0;right:0;bottom:0;height:86px;padding:8px 10px 26px;display:flex;justify-content:space-around;
+  background:linear-gradient(to top,#000 60%,rgba(0,0,0,0));z-index:30;transition:opacity .3s}
+.tabs.hide{opacity:0;pointer-events:none}
+.tab{display:flex;flex-direction:column;align-items:center;gap:5px;width:64px;color:var(--faint);font-size:10px;letter-spacing:.06em}
+.tab b{font-family:var(--serif);font-weight:400;font-size:21px;line-height:22px;color:inherit}
+.tab.on{color:var(--ink)}
+.eyebrow{font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--mute)}
+.h1{font-family:var(--serif);font-weight:300;font-size:40px;line-height:1.02;letter-spacing:-.01em;margin:6px 0 4px}
+.h2{font-family:var(--serif);font-weight:400;font-size:24px;line-height:1.1}
+.body{font-size:13.5px;line-height:1.6;color:var(--mute)}
+.serif{font-family:var(--serif)}
+.rule{height:1px;background:var(--hair);margin:22px 0}
+.row{display:flex;align-items:center;justify-content:space-between}
+.pill{border:1px solid var(--hair);border-radius:999px;padding:7px 14px;font-size:12px;color:var(--ink)}
+.pill.solid{background:var(--ink);color:#000;border-color:var(--ink)}
+.btn{display:flex;align-items:center;justify-content:center;gap:10px;height:52px;border-radius:999px;background:var(--ink);color:#000;font-size:14px;font-weight:500;width:100%}
+.btn.ghost{background:none;color:var(--ink);border:1px solid var(--hair)}
+
+/* square visual (cropped p5.js renders) */
+.sq{position:relative;aspect-ratio:1;background:#050505;overflow:hidden}
+.sq img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.sq img.top{mix-blend-mode:screen;opacity:.92}
+.sq img.top.upper{-webkit-mask-image:linear-gradient(to bottom,#000 45%,transparent 85%);mask-image:linear-gradient(to bottom,#000 45%,transparent 85%)}
+
+/* hexagram glyph */
+.gl{display:inline-flex;flex-direction:column;gap:var(--g,5px);width:var(--w,38px)}
+.gl i{display:flex;justify-content:space-between;height:var(--h,4px)}
+.gl i::before,.gl i::after{content:'';background:currentColor;height:100%;width:42%}
+.gl i.y::before{width:100%}.gl i.y::after{display:none}
+.gl i.ch{color:#fff}.gl i.ch::before,.gl i.ch::after{box-shadow:0 0 6px rgba(255,255,255,.9),0 0 14px rgba(255,255,255,.5)}
+.gl.trigap i:nth-child(3){margin-bottom:var(--tg,4px)}
+
+/* ---------- onboarding ---------- */
+#s-onboard{padding:0;overflow:hidden}
+#stars{position:absolute;inset:0;width:100%;height:100%}
+.ob{position:absolute;inset:0;padding:120px 30px 150px;display:flex;flex-direction:column;justify-content:flex-end;opacity:0;transform:translateY(12px);transition:.6s ease;pointer-events:none}
+.ob.on{opacity:1;transform:none;pointer-events:auto}
+.ob .big{font-family:var(--serif);font-weight:300;font-size:150px;line-height:1;margin-bottom:auto;margin-top:40px}
+.ob h2{font-family:var(--serif);font-weight:300;font-size:36px;line-height:1.05;margin:10px 0 14px}
+.ob h2 em{font-style:italic}
+.obnav{position:absolute;left:30px;right:30px;bottom:44px;display:flex;align-items:center;justify-content:space-between;z-index:5}
+.dots{display:flex;gap:6px}.dots i{width:6px;height:6px;border-radius:50%;background:var(--faint)}.dots i.on{background:var(--ink);width:18px;border-radius:3px}
+.ladder{margin-bottom:auto;margin-top:30px;display:flex;flex-direction:column;gap:26px}
+.ladder .lv{display:flex;align-items:center;gap:16px}
+.ladder .lv>span{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);width:84px;flex:none}
+.ladder .tri8{display:flex;flex-wrap:wrap;width:200px;gap:14px 18px}
+.ladder .tri8>.gl{flex:none}
+.ladder .tri8 .gl{--w:30px;--h:3.5px;--g:4px}
+.ladder .n64{font-family:var(--serif);font-size:64px;font-weight:300;line-height:1}
+.ob .mosaic{margin-bottom:auto;margin-top:10px;display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
+
+/* ---------- today ---------- */
+.date{font-size:12px;color:var(--mute);letter-spacing:.04em}
+.castcard{margin-top:22px;border:1px solid var(--hair);border-radius:26px;padding:20px;position:relative;overflow:hidden;background:radial-gradient(120% 90% at 50% 0%,#141414,#000)}
+.castcard .q{font-family:var(--serif);font-size:25px;line-height:1.15;font-weight:300;margin:10px 0 18px}
+.lastread{display:flex;gap:16px;align-items:center;margin-top:16px}
+.lastread .sq{width:86px;border-radius:14px;flex:none}
+.scenes{display:flex;gap:12px;overflow-x:auto;margin:14px -22px 0;padding:0 22px;scroll-snap-type:x mandatory;scrollbar-width:none}
+.scenes::-webkit-scrollbar{display:none}
+.scene{flex:none;width:250px;scroll-snap-align:start;text-align:left}
+.scene .sq{border-radius:20px}
+.scene .t{margin-top:10px;display:flex;gap:10px;align-items:baseline}
+.scene .t b{font-family:var(--serif);font-weight:400;font-size:26px}
+.scene .t span{font-size:12px;color:var(--mute);line-height:1.35}
+
+/* ---------- cast ---------- */
+#s-cast{padding-top:62px}
+.coins{display:flex;justify-content:center;gap:16px;height:70px;align-items:center;margin:26px 0 8px;perspective:600px}
+.coin{width:52px;height:52px;border-radius:50%;border:1px solid var(--faint);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:20px;transition:transform .9s cubic-bezier(.2,.7,.2,1)}
+.coin.h{background:var(--ink);color:#000;border-color:var(--ink)}
+.coin.spin{transform:rotateY(1080deg) translateY(-14px)}
+.castlines{display:flex;flex-direction:column-reverse;gap:13px;width:190px;margin:26px auto 0;min-height:200px}
+.cl{display:flex;align-items:center;gap:14px;height:20px;opacity:0;transform:scaleX(.4);transition:.5s}
+.cl.in{opacity:1;transform:none}
+.cl .bar{flex:1;display:flex;justify-content:space-between;height:7px}
+.cl .bar::before,.cl .bar::after{content:'';background:var(--ink);width:42%}
+.cl.y .bar::before{width:100%}.cl.y .bar::after{display:none}
+.cl.ch .bar::before,.cl.ch .bar::after{background:#fff;box-shadow:0 0 6px rgba(255,255,255,.9),0 0 14px rgba(255,255,255,.5)}
+.cl small{width:24px;font-size:10px;color:var(--mute);text-align:right}
+.castmeta{text-align:center;font-size:12px;color:var(--mute);margin-top:18px;min-height:18px}
+
+/* ---------- result ---------- */
+.res-head{display:flex;align-items:flex-end;justify-content:space-between;margin-top:14px}
+.res-head .zh{font-family:var(--serif);font-size:96px;line-height:.9;font-weight:300}
+.res-vis{border-radius:24px;margin-top:20px}
+.kv{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--hair);border:1px solid var(--hair);border-radius:18px;overflow:hidden;margin-top:16px}
+.kv>div{background:#000;padding:12px 14px}
+.kv small{display:block;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-bottom:4px}
+.kv span{font-family:var(--serif);font-size:19px}
+.becomes{display:flex;align-items:center;gap:14px;border:1px solid rgba(255,255,255,.35);border-radius:18px;padding:14px;margin-top:12px;width:100%;text-align:left}
+.becomes .zh{font-family:var(--serif);font-size:34px;line-height:1}
+
+/* ---------- bagua ---------- */
+.grid8{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
+.tile{text-align:left}
+.tile .sq{border-radius:18px}
+.tile .cap{display:flex;justify-content:space-between;align-items:baseline;margin-top:8px}
+.tile .cap b{font-family:var(--serif);font-weight:400;font-size:22px}
+.tile .cap span{font-size:11px;color:var(--mute);letter-spacing:.06em}
+.tile .num{position:absolute;top:10px;left:12px;font-size:10px;color:var(--mute);z-index:2}
+
+/* sheet */
+.sheet{position:absolute;left:0;right:0;bottom:0;max-height:90%;background:#0d0d0d;border-radius:28px 28px 0 0;padding:12px 22px 34px;z-index:40;transform:translateY(105%);transition:transform .45s cubic-bezier(.2,.8,.2,1);overflow-y:auto;scrollbar-width:none;border-top:1px solid var(--hair)}
+.sheet.on{transform:none}
+.sheet .grab{width:38px;height:5px;border-radius:3px;background:var(--faint);margin:0 auto 16px}
+.scrim{position:absolute;inset:0;background:rgba(0,0,0,.55);opacity:0;pointer-events:none;transition:.3s;z-index:35}
+.scrim.on{opacity:1;pointer-events:auto}
+
+/* ---------- compose ---------- */
+.pick{margin-top:16px}
+.pick .lab{display:flex;justify-content:space-between;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);margin-bottom:8px}
+.chips{display:flex;gap:8px;overflow-x:auto;margin:0 -22px;padding:0 22px 2px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;border:1px solid var(--hair);border-radius:16px;padding:9px 12px 8px;display:flex;flex-direction:column;align-items:center;gap:6px;min-width:62px;color:var(--mute)}
+.chip b{font-family:var(--serif);font-weight:400;font-size:20px;color:var(--ink);line-height:1}
+.chip small{font-size:10px}
+.chip.on{background:var(--ink);border-color:var(--ink);color:rgba(0,0,0,.6)}
+.chip.on b{color:#000}
+.comp-vis{border-radius:26px;margin-top:6px}
+.comp-out{display:flex;align-items:center;gap:16px;margin-top:16px}
+.comp-out .zh{font-family:var(--serif);font-size:58px;font-weight:300;line-height:1}
+.playfab{width:58px;height:58px;border-radius:50%;background:var(--ink);color:#000;display:flex;align-items:center;justify-content:center;margin-left:auto;flex:none}
+
+/* ---------- library ---------- */
+.seg{display:flex;border:1px solid var(--hair);border-radius:999px;padding:3px;margin-top:16px}
+.seg button{flex:1;height:32px;border-radius:999px;font-size:12px;color:var(--mute)}
+.seg button.on{background:var(--ink);color:#000}
+.grid64{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:16px}
+.cell{border:1px solid var(--hair);border-radius:14px;aspect-ratio:.82;padding:8px 8px 7px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden;text-align:left}
+.cell .n{font-size:9.5px;color:var(--faint)}
+.cell b{font-family:var(--serif);font-weight:400;font-size:21px;line-height:1}
+.cell .gl{--w:24px;--h:2.5px;--g:2.5px;--tg:2px;position:absolute;right:8px;top:9px;color:var(--mute)}
+.cell.feat{border-color:rgba(242,239,232,.4)}
+.cell.feat img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.55}
+.cell.feat>*{position:relative}
+.cell.feat .gl{position:absolute}
+.cell.seen::after{content:'';position:absolute;bottom:8px;right:8px;width:5px;height:5px;border-radius:50%;background:#fff;box-shadow:0 0 6px rgba(255,255,255,.9),0 0 14px rgba(255,255,255,.5)}
+
+/* ---------- about ---------- */
+.steps{margin-top:8px}
+.step{display:grid;grid-template-columns:36px 1fr;gap:4px;padding:14px 0;border-top:1px solid var(--hair)}
+.step i{font-style:normal;font-family:var(--serif);font-size:20px;color:var(--mute)}
+.step p{font-size:13.5px;line-height:1.55}
+.quote{font-family:var(--serif);font-size:23px;line-height:1.25;font-weight:300;font-style:italic;margin:18px 0}
+
+/* ---------- player ---------- */
+.player{position:absolute;inset:0;background:#000;z-index:45;transform:translateY(100%);transition:transform .5s cubic-bezier(.2,.8,.2,1);padding:58px 26px 34px;display:flex;flex-direction:column;overflow-y:auto;scrollbar-width:none}
+.player.on{transform:none}
+.player .top{display:flex;justify-content:space-between;align-items:center;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute)}
+.player .top button{width:36px;height:36px;display:flex;align-items:center;justify-content:center;border-radius:50%;border:1px solid var(--hair)}
+.player .vis{margin:22px 6px 0;border-radius:4px;animation:breathe 9s ease-in-out infinite}
+@keyframes breathe{50%{transform:scale(1.015)}}
+.player .title{display:flex;align-items:flex-end;gap:14px;margin-top:22px}
+.player .title .zh{font-family:var(--serif);font-size:62px;line-height:.85;font-weight:300}
+.player .title .t1{font-family:var(--serif);font-size:23px;line-height:1.05}
+.player .title .t2{font-size:12px;color:var(--mute);margin-top:4px}
+.player .scene-l{font-family:var(--serif);font-style:italic;font-size:17px;color:var(--mute);margin-top:12px;line-height:1.3}
+.waves{margin-top:18px;display:flex;flex-direction:column;gap:6px}
+.wave{display:grid;grid-template-columns:62px 1fr 64px;align-items:center;gap:10px;font-size:10.5px;color:var(--mute);letter-spacing:.04em}
+.wave canvas{width:100%;height:26px}
+.wave input{width:64px;accent-color:#f2efe8}
+.ctrl{display:flex;align-items:center;justify-content:space-between;margin-top:auto;padding-top:20px}
+.ctrl .main{width:72px;height:72px;border-radius:50%;background:var(--ink);color:#000;display:flex;align-items:center;justify-content:center}
+.ctrl .sm{width:44px;height:44px;display:flex;align-items:center;justify-content:center;color:var(--mute);font-size:11px;flex-direction:column;gap:2px}
+.ctrl .sm.on{color:#fff;filter:drop-shadow(0 0 4px rgba(255,255,255,.8))}
+.mini{position:absolute;left:12px;right:12px;bottom:90px;height:60px;border-radius:18px;background:#141414;border:1px solid var(--hair);display:flex;align-items:center;gap:12px;padding:6px 10px 6px 6px;z-index:31;transform:translateY(20px);opacity:0;pointer-events:none;transition:.35s}
+.mini.on{transform:none;opacity:1;pointer-events:auto}
+.mini .sq{width:48px;border-radius:12px;flex:none}
+.mini .tx{flex:1;min-width:0;text-align:left}
+.mini .tx b{font-family:var(--serif);font-weight:400;font-size:17px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mini .tx small{font-size:11px;color:var(--mute)}
+.mini .pp{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.toast{position:absolute;left:50%;top:60px;transform:translate(-50%,-10px);background:var(--ink);color:#000;font-size:12px;padding:8px 14px;border-radius:999px;opacity:0;transition:.3s;z-index:70;pointer-events:none;white-space:nowrap}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+</style>
+</head>
+<body>
+<aside class="side">
+  <h1>Yi <em>易</em></h1>
+  <p>A mobile app built from <i>A Semiotic Study on the I Ching</i> (2024). Eight natural sounds, drawn in p5.js, become sixty-four listenable hexagrams.</p>
+  <p>Click through the phone, or jump to a screen. Turn your sound on: the prototype synthesizes a stand-in for each recording.</p>
+  <div class="k">Jump to</div>
+  <div class="jump">
+    <button data-go="onboard">Onboarding</button><button data-go="today">Today</button><button data-go="cast">Cast</button>
+    <button data-go="result/demo">Reading</button><button data-go="bagua">Eight Trigrams</button><button data-go="compose">Compose</button>
+    <button data-go="library">Sixty-four</button><button data-go="player/40">Player</button><button data-go="about">About</button>
+  </div>
+</aside>
+
+<div class="device"><div class="app" id="app">
+  <div class="status"><span id="clock">9:41</span><span class="ic">
+    <svg width="18" height="11" viewBox="0 0 18 11" fill="#f2efe8"><rect x="0" y="7" width="3" height="4" rx="1"/><rect x="5" y="5" width="3" height="6" rx="1"/><rect x="10" y="2.5" width="3" height="8.5" rx="1"/><rect x="15" y="0" width="3" height="11" rx="1"/></svg>
+    <svg width="16" height="11" viewBox="0 0 16 11" fill="none" stroke="#f2efe8" stroke-width="1.6" stroke-linecap="round"><path d="M1.5 4a9.5 9.5 0 0 1 13 0M4 6.6a6 6 0 0 1 8 0M6.6 9.1a2.2 2.2 0 0 1 2.8 0"/></svg>
+    <span class="bat"></span></span></div>
+
+  <div class="screens">
+    <!-- ONBOARDING -->
+    <section class="screen" id="s-onboard">
+      <canvas id="stars"></canvas>
+      <div class="ob" data-i="0">
+        <div class="big">易</div>
+        <div class="eyebrow">Yi · I Ching Soundscapes</div>
+        <h2>The Book of Changes, <em>made audible.</em></h2>
+        <p class="body">Sixty-four hexagrams, each one a landscape of natural sound you can cast, compose and listen to.</p>
+      </div>
+      <div class="ob" data-i="1">
+        <div class="ladder">
+          <div class="lv"><span>2 lines</span><div style="display:flex;gap:22px;align-items:center"><span class="gl" style="--w:56px;--h:6px"><i class="y"></i></span><span class="gl" style="--w:56px;--h:6px"><i></i></span></div></div>
+          <div class="lv"><span>8 trigrams</span><div class="tri8" id="tri8"></div></div>
+          <div class="lv"><span>64 hexagrams</span><div class="n64">8 × 8</div></div>
+        </div>
+        <div class="eyebrow">An open framework</div>
+        <h2>Not a stone tablet. <em>A human-made language of symbols.</em></h2>
+        <p class="body">Two signs, yin and yang, combine into eight trigrams, then sixty-four hexagrams. Its logic is visual, readable, and can be rewritten.</p>
+      </div>
+      <div class="ob" data-i="2">
+        <div class="mosaic" id="mosaic"></div>
+        <div class="eyebrow">How it sounds</div>
+        <h2>Eight natural sounds, <em>drawn as vibrating lines.</em></h2>
+        <p class="body">Heaven, Earth, Wind, Fire, Rain, Water, Mountain and Thunder were recorded and visualized in p5.js. Paired eight by eight, they become sixty-four scenes.</p>
+      </div>
+      <div class="obnav"><div class="dots" id="obdots"><i class="on"></i><i></i><i></i></div>
+        <div style="display:flex;gap:8px"><button class="pill" id="obskip">Skip</button><button class="pill solid" id="obnext">Next</button></div></div>
+    </section>
+
+    <!-- TODAY -->
+    <section class="screen" id="s-today">
+      <div class="row"><div class="date" id="today-date"></div><button class="pill" data-go="about">About</button></div>
+      <div class="h1">Good evening.</div>
+      <p class="body">What would you like to listen to?</p>
+      <div class="castcard">
+        <div class="eyebrow">Today's cast</div>
+        <div class="q">Hold a question in mind, then toss three coins, six times.</div>
+        <button class="btn" data-go="cast">Cast a hexagram</button>
+        <div id="lastread"></div>
+      </div>
+      <div class="row" style="margin-top:28px"><div class="h2">Four scenes</div><button class="eyebrow" data-go="library/scenes">See all</button></div>
+      <div class="scenes" id="scenes"></div>
+      <div class="row" style="margin-top:28px"><div class="h2">The eight sounds</div><button class="eyebrow" data-go="bagua">Open</button></div>
+      <div class="chips" id="today-chips" style="margin-top:12px"></div>
+    </section>
+
+    <!-- CAST -->
+    <section class="screen" id="s-cast">
+      <div class="row"><button class="pill" data-go="today">Close</button><div class="eyebrow" id="cast-step">Line 1 of 6</div></div>
+      <div class="h1" style="margin-top:18px">Cast</div>
+      <p class="body">Three coins. Heads count three, tails two. Lines build from the bottom up; 6 and 9 are changing lines.</p>
+      <div class="coins"><div class="coin">·</div><div class="coin">·</div><div class="coin">·</div></div>
+      <div class="castlines" id="castlines"></div>
+      <div class="castmeta" id="castmeta">&nbsp;</div>
+      <div style="position:absolute;left:22px;right:22px;bottom:40px"><button class="btn" id="tossbtn">Toss coins</button></div>
+    </section>
+
+    <!-- RESULT -->
+    <section class="screen" id="s-result"></section>
+
+    <!-- BAGUA -->
+    <section class="screen" id="s-bagua">
+      <div class="eyebrow">八卦 · Bagua</div>
+      <div class="h1">Eight trigrams</div>
+      <p class="body">Each trigram is a recorded element, rendered as a generative image from its own sound.</p>
+      <div class="grid8" id="grid8"></div>
+    </section>
+
+    <!-- COMPOSE -->
+    <section class="screen" id="s-compose">
+      <div class="eyebrow">组合 · Compose</div>
+      <div class="h1">Pair two sounds</div>
+      <div class="sq comp-vis" id="comp-vis"></div>
+      <div class="pick"><div class="lab"><span>Upper trigram 上</span><span id="up-l"></span></div><div class="chips" id="chips-up"></div></div>
+      <div class="pick"><div class="lab"><span>Lower trigram 下</span><span id="lo-l"></span></div><div class="chips" id="chips-lo"></div></div>
+      <div class="comp-out" id="comp-out"></div>
+    </section>
+
+    <!-- LIBRARY -->
+    <section class="screen" id="s-library">
+      <div class="eyebrow">六十四卦</div>
+      <div class="h1">Sixty-four</div>
+      <div class="seg"><button class="on" data-f="all">All 64</button><button data-f="scenes">Scenes</button><button data-f="seen">Listened</button></div>
+      <div class="grid64" id="grid64"></div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="screen" id="s-about">
+      <div class="eyebrow">About the project</div>
+      <div class="h1">A semiotic study of the I Ching</div>
+      <div class="quote">“It is not a stone tablet left by gods, but a creation of humans. To me, it is an open framework.”</div>
+      <p class="body">The <i>I Ching</i> generates eight basic elements from two symbols, yin and yang, and from them sixty-four hexagrams: a tool for understanding the world. Read as literature, it is a genre of writing guided by visual logic, with a recognizable, comprehensible, even replicable creative process.</p>
+      <p class="body" style="margin-top:10px">Yi rewrites and expands the <i>I Ching</i> inside that framework, using sound visualization in p5.js to make its original and contemporary meanings accessible to more people.</p>
+      <div class="rule"></div>
+      <div class="eyebrow" style="margin-bottom:6px">Method</div>
+      <div class="steps">
+        <div class="step"><i>1</i><p>Record the sounds of eight natural elements, one for each trigram.</p></div>
+        <div class="step"><i>2</i><p>Import the recordings into p5.js.</p></div>
+        <div class="step"><i>3</i><p>Visualize each sound as a generative image that reflects its element. Every visual is generated from algorithmic data.</p></div>
+        <div class="step"><i>4</i><p>Create an individual audio track for each natural sound.</p></div>
+        <div class="step"><i>5</i><p>Pair the images in every combination, 8 × 8 = 64, to depict specific natural scenes.</p></div>
+      </div>
+      <div class="rule"></div>
+      <p class="body" style="font-size:12px">Concept, sound, p5.js visuals and design: Jingyi Zhang, Rainmelon Studio. Based on the 2024 installation. In this prototype the field recordings are stood in for by synthesized audio.</p>
+    </section>
+  </div>
+
+  <!-- mini player + tabs -->
+  <button class="mini" id="mini"><div class="sq" id="mini-vis"></div><div class="tx"><b id="mini-t"></b><small id="mini-s"></small></div><span class="pp" id="mini-pp"></span></button>
+  <nav class="tabs" id="tabs">
+    <button class="tab" data-go="today"><b>今</b>Today</button>
+    <button class="tab" data-go="bagua"><b>卦</b>Eight</button>
+    <button class="tab" data-go="compose"><b>合</b>Compose</button>
+    <button class="tab" data-go="library"><b>易</b>Sixty-four</button>
+    <button class="tab" data-go="about"><b>文</b>About</button>
+  </nav>
+
+  <div class="scrim" id="scrim"></div>
+  <div class="sheet" id="sheet"></div>
+
+  <!-- PLAYER -->
+  <section class="player" id="player">
+    <div class="top"><button id="pl-close" aria-label="Close"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="#f2efe8" stroke-width="1.5"><path d="M2 5l5 5 5-5"/></svg></button><span id="pl-kind">Now resonating</span><button id="pl-fav" aria-label="Save"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#f2efe8" stroke-width="1.6"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button></div>
+    <div class="sq vis" id="pl-vis"></div>
+    <div class="title"><div class="zh" id="pl-zh"></div><div style="flex:1"><div class="t1" id="pl-t1"></div><div class="t2" id="pl-t2"></div></div><span class="gl trigap" id="pl-gl" style="--w:34px;--h:3.5px;--g:4px"></span></div>
+    <div class="scene-l" id="pl-scene"></div>
+    <div class="waves" id="pl-waves"></div>
+    <div class="ctrl">
+      <button class="sm" id="pl-timer"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M9 2h6"/></svg><span id="pl-timer-l">Off</span></button>
+      <button class="sm" id="pl-prev"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M6 5h2v14H6zM20 5v14L9 12z"/></svg></button>
+      <button class="main" id="pl-play"></button>
+      <button class="sm" id="pl-next"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M16 5h2v14h-2zM4 5v14l11-7z"/></svg></button>
+      <button class="sm" id="pl-change"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 8h13l-3-3M20 16H7l3 3"/></svg><span>Change</span></button>
+    </div>
+  </section>
+  <div class="toast" id="toast"></div>
+</div></div>
+
+<script>
+/* ================= DATA ================= */
+const DEMO_ON = /^#demo-/.test(location.hash);
+const A = '../assets/projects/yi/';
+const TRI = {
+  qian:{zh:'乾',py:'Qian',el:'Heaven',n:1,l:[1,1,1],sym:'☰',vis:'A slow drift of stars across an open field.',snd:'High, open air'},
+  kun: {zh:'坤',py:'Kun', el:'Earth', n:2,l:[0,0,0],sym:'☷',vis:'A radial sweep that turns like ploughed ground.',snd:'Low ground hum'},
+  xun: {zh:'巽',py:'Xun', el:'Wind',  n:3,l:[0,1,1],sym:'☴',vis:'Cloud-like noise that reshapes with every gust.',snd:'Gusts through open space'},
+  li:  {zh:'离',py:'Li',  el:'Fire',  n:4,l:[1,0,1],sym:'☲',vis:'Spectral peaks that flicker upward like flame.',snd:'Crackling fire'},
+  dui: {zh:'兑',py:'Dui', el:'Rain',  n:5,l:[1,1,0],sym:'☱',vis:'Short falling strokes, one for each drop.',snd:'Steady rainfall'},
+  kan: {zh:'坎',py:'Kan', el:'Water', n:6,l:[0,1,0],sym:'☵',vis:'Stacked lines that rise and fall like a current.',snd:'Moving water'},
+  gen: {zh:'艮',py:'Gen', el:'Mountain',n:7,l:[0,0,1],sym:'☶',vis:'A single amplitude peak, held still.',snd:'Deep, still resonance'},
+  zhen:{zh:'震',py:'Zhen',el:'Thunder',n:8,l:[1,0,0],sym:'☳',vis:'Sparse bursts of light in the dark.',snd:'Distant thunder'}
+};
+const ORDER = ['qian','kun','xun','li','dui','kan','gen','zhen'];
+const KWO = ['qian','zhen','kan','gen','kun','xun','li','dui'];
+const KW = [[1,34,5,26,11,9,14,43],[25,51,3,27,24,42,21,17],[6,40,29,4,7,59,64,47],[33,62,39,52,15,53,56,31],
+            [12,16,8,23,2,20,35,45],[44,32,48,18,46,57,50,28],[13,55,63,22,36,37,30,49],[10,54,60,41,19,61,38,58]];
+const HX = [,['乾','Qian','The Creative'],['坤','Kun','The Receptive'],['屯','Zhun','Difficulty at the Beginning'],['蒙','Meng','Youthful Folly'],['需','Xu','Waiting'],['讼','Song','Conflict'],['师','Shi','The Army'],['比','Bi','Holding Together'],['小畜','Xiao Chu','Small Taming'],['履','Lü','Treading'],['泰','Tai','Peace'],['否','Pi','Standstill'],['同人','Tong Ren','Fellowship'],['大有','Da You','Great Possession'],['谦','Qian','Modesty'],['豫','Yu','Enthusiasm'],['随','Sui','Following'],['蛊','Gu','Work on the Decayed'],['临','Lin','Approach'],['观','Guan','Contemplation'],['噬嗑','Shi He','Biting Through'],['贲','Bi','Grace'],['剥','Bo','Splitting Apart'],['复','Fu','Return'],['无妄','Wu Wang','Innocence'],['大畜','Da Chu','Great Taming'],['颐','Yi','Nourishment'],['大过','Da Guo','Great Exceeding'],['坎','Kan','The Abysmal'],['离','Li','The Clinging'],['咸','Xian','Influence'],['恒','Heng','Duration'],['遯','Dun','Retreat'],['大壮','Da Zhuang','Great Power'],['晋','Jin','Progress'],['明夷','Ming Yi','Darkening of the Light'],['家人','Jia Ren','The Family'],['睽','Kui','Opposition'],['蹇','Jian','Obstruction'],['解','Xie','Deliverance'],['损','Sun','Decrease'],['益','Yi','Increase'],['夬','Guai','Breakthrough'],['姤','Gou','Coming to Meet'],['萃','Cui','Gathering Together'],['升','Sheng','Pushing Upward'],['困','Kun','Oppression'],['井','Jing','The Well'],['革','Ge','Revolution'],['鼎','Ding','The Cauldron'],['震','Zhen','The Arousing'],['艮','Gen','Keeping Still'],['渐','Jian','Development'],['归妹','Gui Mei','The Marrying Maiden'],['丰','Feng','Abundance'],['旅','Lü','The Wanderer'],['巽','Xun','The Gentle'],['兑','Dui','The Joyous'],['涣','Huan','Dispersion'],['节','Jie','Limitation'],['中孚','Zhong Fu','Inner Truth'],['小过','Xiao Guo','Small Exceeding'],['既济','Ji Ji','After Completion'],['未济','Wei Ji','Before Completion']];
+const SCENES = {
+  11:{img:'Tai',en:'Gaze at the Earth, in the Cosmos',zh:'在宇宙凝视地球'},
+  37:{img:'Jiaren',en:'The Windy Bonfire Night',zh:'在风中的篝火夜晚'},
+  31:{img:'Xian',en:'The Spring Mountain in the Rain',zh:'在雨中的春山'},
+  40:{img:'Xie',en:'On the River, Before the Summer Rain',zh:'下暴雨前的夏日湖面'}
+};
+const hexOf = (lo,up) => KW[KWO.indexOf(lo)][KWO.indexOf(up)];
+const PARTS = {}; KWO.forEach((lo,i)=>KWO.forEach((up,j)=>PARTS[KW[i][j]]={lo,up}));
+const triOfLines = l => ORDER.find(k => TRI[k].l.join('')===l.join(''));
+const hexLines = n => [...TRI[PARTS[n].lo].l, ...TRI[PARTS[n].up].l];
+
+/* ================= STORE ================= */
+const store = { get(k,d){try{return JSON.parse(localStorage.getItem('yi.'+k))??d}catch(e){return d}}, set(k,v){try{localStorage.setItem('yi.'+k,JSON.stringify(v))}catch(e){}} };
+let seen = new Set(store.get('seen',[]));
+const markSeen = n => { if(n){seen.add(n); store.set('seen',[...seen]);} };
+
+/* ================= HELPERS ================= */
+const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+const glyph = (lines, ch=[], cls='') => `<span class="gl ${cls}">${[...lines].map((v,i)=>({v,i})).reverse().map(o=>`<i class="${o.v?'y':''} ${ch.includes(o.i)?'ch':''}"></i>`).join('')}</span>`;
+const img = (name,cls='') => `<img class="${cls}" src="${A}sq_${name}.webp" alt="" loading="lazy">`;
+function visHTML(n, tri){
+  if (tri) return img(TRI[tri].el);
+  if (SCENES[n]) return img(SCENES[n].img);
+  const {lo,up} = PARTS[n];
+  if (lo===up) return img(TRI[lo].el);
+  return img(TRI[lo].el) + img(TRI[up].el,'top upper');
+}
+const toast = t => { const e=$('#toast'); e.textContent=t; e.classList.add('on'); clearTimeout(e._t); e._t=setTimeout(()=>e.classList.remove('on'),1600); };
+const ICON = { play:'<svg width="24" height="24" viewBox="0 0 24 24" fill="#000"><path d="M7 4.5v15L19.5 12z"/></svg>', pause:'<svg width="24" height="24" viewBox="0 0 24 24" fill="#000"><rect x="6" y="4.5" width="4" height="15" rx="1"/><rect x="14" y="4.5" width="4" height="15" rx="1"/></svg>' };
+const ICONw = { play:ICON.play.replace('#000','#f2efe8'), pause:ICON.pause.replace(/#000/g,'#f2efe8') };
+
+/* ================= AUDIO (synthesized stand-ins for the field recordings) ================= */
+let AC=null, MASTER=null, BUF={};
+function ac(){
+  if(!AC){ AC=new (window.AudioContext||window.webkitAudioContext)(); MASTER=AC.createGain(); MASTER.gain.value=.9; MASTER.connect(AC.destination);
+    ['white','brown','pink'].forEach(t=>{ const len=AC.sampleRate*4, b=AC.createBuffer(1,len,AC.sampleRate), d=b.getChannelData(0); let last=0,b0=0,b1=0,b2=0;
+      for(let i=0;i<len;i++){ const w=Math.random()*2-1;
+        if(t==='white') d[i]=w*.5;
+        else if(t==='brown'){ last=(last+.02*w)/1.02; d[i]=last*3.2; }
+        else { b0=.99765*b0+w*.099046; b1=.963*b1+w*.2965164; b2=.57*b2+w*1.0526913; d[i]=(b0+b1+b2+w*.1848)*.11; } }
+      BUF[t]=b; }); }
+  if(AC.state==='suspended') AC.resume();
+  return AC;
+}
+function layer(el, out){
+  const nodes=[], timers=[], T=AC.currentTime;
+  const N=(t)=>{const s=AC.createBufferSource(); s.buffer=BUF[t]; s.loop=true; s.loopStart=Math.random(); s.start(0, Math.random()*3); nodes.push(s); return s;};
+  const O=(f,type='sine')=>{const o=AC.createOscillator(); o.type=type; o.frequency.value=f; o.start(); nodes.push(o); return o;};
+  const G=(v)=>{const g=AC.createGain(); g.gain.value=v; return g;};
+  const F=(type,f,q=.7)=>{const b=AC.createBiquadFilter(); b.type=type; b.frequency.value=f; b.Q.value=q; return b;};
+  const L=(rate,depth,param)=>{const o=O(rate); const g=G(depth); o.connect(g).connect(param);};
+  const blip=(f,dur,gain,type='sine')=>{const o=AC.createOscillator(),g=AC.createGain(),t=AC.currentTime; o.type=type; o.frequency.setValueAtTime(f,t); o.frequency.exponentialRampToValueAtTime(f*.6,t+dur); g.gain.setValueAtTime(gain,t); g.gain.exponentialRampToValueAtTime(.0001,t+dur); o.connect(g).connect(out); o.start(t); o.stop(t+dur+.02);};
+  const crack=(gain)=>{const s=AC.createBufferSource(),g=AC.createGain(),h=F('highpass',1800+Math.random()*2500),t=AC.currentTime; s.buffer=BUF.white; g.gain.setValueAtTime(gain,t); g.gain.exponentialRampToValueAtTime(.0001,t+.01+Math.random()*.03); s.connect(h).connect(g).connect(out); s.start(t,Math.random()*3); s.stop(t+.06);};
+  switch(el){
+    case 'Heaven': { const g=G(.022); [220,330,440,660].forEach((f,i)=>O(f*(1+i*.0015)).connect(g)); L(.06,.012,g.gain); g.connect(out);
+      const a=N('white'), b=F('bandpass',5200,.6), ag=G(.035); a.connect(b).connect(ag).connect(out); L(.04,.02,ag.gain); break; }
+    case 'Earth': { const s=N('brown'), f=F('lowpass',190), g=G(.55); s.connect(f).connect(g).connect(out); L(.05,.2,g.gain);
+      const o=O(55), og=G(.07); o.connect(og).connect(out); L(.03,.03,og.gain); break; }
+    case 'Wind': { const s=N('pink'), f=F('bandpass',700,.9), g=G(.9); s.connect(f).connect(g).connect(out); L(.07,450,f.frequency); L(.11,.45,g.gain); break; }
+    case 'Fire': { const s=N('brown'), f=F('lowpass',700), g=G(.35); s.connect(f).connect(g).connect(out);
+      timers.push(setInterval(()=>{ if(Math.random()<.42) crack(.12+Math.random()*.25); },45)); break; }
+    case 'Rain': { const s=N('white'), h=F('highpass',1600), l=F('lowpass',8500), g=G(.2); s.connect(h).connect(l).connect(g).connect(out);
+      timers.push(setInterval(()=>{ if(Math.random()<.55) blip(2200+Math.random()*2600,.03,.025); },28)); break; }
+    case 'Water': { const s=N('brown'), f=F('lowpass',520), g=G(.8); s.connect(f).connect(g).connect(out); L(.17,.38,g.gain); L(.09,180,f.frequency);
+      const w=N('white'), b=F('bandpass',1300,2.5), wg=G(.06); w.connect(b).connect(wg).connect(out); L(.23,.05,wg.gain);
+      timers.push(setInterval(()=>{ if(Math.random()<.18) blip(500+Math.random()*700,.08,.03); },120)); break; }
+    case 'Mountain': { const g=G(.09); O(41).connect(g); O(61.5).connect(g); O(82.4).connect(G(.4)).connect(g); L(.025,.03,g.gain); g.connect(out);
+      const s=N('pink'), f=F('bandpass',240,1.4), sg=G(.22); s.connect(f).connect(sg).connect(out); L(.05,.12,sg.gain); break; }
+    case 'Thunder': { const s=N('brown'), f=F('lowpass',260), g=G(.12); s.connect(f).connect(g).connect(out);
+      const roll=()=>{ const t=AC.currentTime; g.gain.cancelScheduledValues(t); g.gain.setValueAtTime(.12,t); g.gain.linearRampToValueAtTime(1.3,t+.25+Math.random()*.4); g.gain.exponentialRampToValueAtTime(.12,t+4.5+Math.random()*2);
+        f.frequency.cancelScheduledValues(t); f.frequency.setValueAtTime(900,t); f.frequency.exponentialRampToValueAtTime(140,t+3.5); };
+      setTimeout(roll,600); timers.push(setInterval(()=>{ if(Math.random()<.5) roll(); },4200)); break; }
+  }
+  return { stop(){ timers.forEach(clearInterval); nodes.forEach(n=>{try{n.stop()}catch(e){}}); } };
+}
+
+/* ================= PLAYER ================= */
+const P = { n:null, tri:null, playing:false, layers:[], timer:0, timerId:null, vol:{up:.8,lo:.8} };
+function pTitle(){
+  if(P.tri){ const t=TRI[P.tri]; return {zh:t.zh, t1:`${t.py} · ${t.el}`, t2:`Trigram ${t.n} of 8`, scene:t.vis, lines:t.l}; }
+  const h=HX[P.n], {lo,up}=PARTS[P.n], s=SCENES[P.n];
+  return {zh:h[0], t1:`${h[1]} · ${h[2]}`, t2:`Hexagram ${P.n} · ${TRI[up].el} over ${TRI[lo].el}`, scene: s?`${s.en} / ${s.zh}`:`${TRI[up].sym} ${TRI[up].el} above, ${TRI[lo].sym} ${TRI[lo].el} below.`, lines:hexLines(P.n)};
+}
+function openPlayer(n, tri, autoplay=true){
+  const same = P.n===n && P.tri===tri;
+  if(!same){ stopAudio(); P.n=n; P.tri=tri||null; }
+  const t=pTitle();
+  $('#pl-vis').innerHTML = visHTML(n, tri);
+  $('#pl-zh').textContent=t.zh; $('#pl-t1').textContent=t.t1; $('#pl-t2').textContent=t.t2; $('#pl-scene').textContent=t.scene;
+  $('#pl-gl').outerHTML = glyph(t.lines,[],'trigap').replace('class="gl trigap"','class="gl trigap" id="pl-gl" style="--w:34px;--h:3.5px;--g:4px"');
+  $('#pl-kind').textContent = tri ? 'Trigram' : (SCENES[n] ? 'Scene' : 'Hexagram');
+  const ws = tri ? [['lo',TRI[tri].el]] : (PARTS[n].lo===PARTS[n].up ? [['lo',TRI[PARTS[n].lo].el]] : [['up',TRI[PARTS[n].up].el],['lo',TRI[PARTS[n].lo].el]]);
+  $('#pl-waves').innerHTML = ws.map(([k,el])=>`<div class="wave"><span>${k==='up'?'上':'下'} ${el}</span><canvas data-k="${k}"></canvas><input type="range" min="0" max="1" step=".01" value="${P.vol[k]}" data-k="${k}" aria-label="${el} volume"></div>`).join('');
+  $$('#pl-waves input').forEach(i=>i.oninput=()=>{ P.vol[i.dataset.k]=+i.value; const L=P.layers.find(l=>l.k===i.dataset.k); if(L) L.gain.gain.setTargetAtTime(+i.value,AC.currentTime,.1); });
+  $('#pl-change').style.visibility = tri ? 'hidden':'visible';
+  $('#player').classList.add('on'); $('#tabs').classList.add('hide'); $('#mini').classList.remove('on');
+  markSeen(n); if(autoplay && !P.playing) play(); syncPP(); setHash(tri?`player/${tri}`:`player/${n}`);
+}
+function closePlayer(){ $('#player').classList.remove('on'); $('#tabs').classList.remove('hide'); updateMini(); setHash(cur); }
+function play(){
+  ac(); stopAudio(true);
+  const els = P.tri ? [['lo',TRI[P.tri].el]] : (PARTS[P.n].lo===PARTS[P.n].up ? [['lo',TRI[PARTS[P.n].lo].el]] : [['up',TRI[PARTS[P.n].up].el],['lo',TRI[PARTS[P.n].lo].el]]);
+  P.layers = els.map(([k,el])=>{ const gain=AC.createGain(), an=AC.createAnalyser(); an.fftSize=1024; gain.gain.setValueAtTime(0,AC.currentTime); gain.gain.linearRampToValueAtTime(P.vol[k],AC.currentTime+1.2);
+    gain.connect(an).connect(MASTER); return {k, gain, an, src:layer(el,gain)}; });
+  P.playing=true; syncPP();
+}
+function stopAudio(silent){ P.layers.forEach(l=>{ try{ const t=AC.currentTime; l.gain.gain.cancelScheduledValues(t); l.gain.gain.setValueAtTime(l.gain.gain.value,t); l.gain.gain.linearRampToValueAtTime(0,t+.4);}catch(e){} const s=l.src; setTimeout(()=>s.stop(),450); }); P.layers=[]; if(!silent){P.playing=false; syncPP();} }
+function toggle(){ P.playing ? stopAudio() : play(); }
+function syncPP(){ $('#pl-play').innerHTML = P.playing?ICON.pause:ICON.play; $('#mini-pp').innerHTML = P.playing?ICONw.pause:ICONw.play; updateMini(); }
+function updateMini(){
+  const show = (P.n||P.tri) && !$('#player').classList.contains('on') && cur!=='onboard' && cur!=='cast';
+  $('#mini').classList.toggle('on', !!show);
+  if(P.n||P.tri){ const t=pTitle(); $('#mini-vis').innerHTML=visHTML(P.n,P.tri); $('#mini-t').textContent=`${t.zh}  ${t.t1}`; $('#mini-s').textContent=P.playing?'Playing':'Paused'; }
+}
+function step(d){ if(P.tri){ const i=(ORDER.indexOf(P.tri)+d+8)%8; openPlayer(null,ORDER[i]); } else { openPlayer(((P.n-1+d+64)%64)+1); } if(!P.playing) play(); }
+const TIMERS=[0,10,20,30];
+$('#pl-timer').onclick=()=>{ P.timer=TIMERS[(TIMERS.indexOf(P.timer)+1)%4]; $('#pl-timer-l').textContent=P.timer?P.timer+' min':'Off'; $('#pl-timer').classList.toggle('on',!!P.timer);
+  clearTimeout(P.timerId); if(P.timer){ P.timerId=setTimeout(()=>stopAudio(),P.timer*60000); toast(`Fades out in ${P.timer} minutes`);} };
+$('#pl-play').onclick=toggle; $('#mini-pp').onclick=e=>{e.stopPropagation();toggle()}; $('#mini').onclick=()=>openPlayer(P.n,P.tri,false);
+$('#pl-close').onclick=closePlayer; $('#pl-prev').onclick=()=>step(-1); $('#pl-next').onclick=()=>step(1);
+$('#pl-fav').onclick=()=>toast('Saved to your library');
+$('#pl-change').onclick=()=>{ if(P.n){ const {lo,up}=PARTS[P.n]; openPlayer(hexOf(up,lo)); toast('Upper and lower swapped'); } };
+
+/* wave drawing: analyser data when playing, a resting tremble when not */
+function drawWaves(ts){
+  $$('#pl-waves canvas').forEach(c=>{
+    const r=c.getBoundingClientRect(), dpr=2; if(c.width!==r.width*dpr){c.width=r.width*dpr;c.height=r.height*dpr;}
+    const x=c.getContext('2d'), w=c.width, h=c.height; x.clearRect(0,0,w,h); x.strokeStyle='#f2efe8'; x.lineWidth=1.6; x.beginPath();
+    const L=P.layers.find(l=>l.k===c.dataset.k); let d=null; if(L&&P.playing){ d=new Float32Array(L.an.fftSize); L.an.getFloatTimeDomainData(d); }
+    for(let i=0;i<=120;i++){ const px=i/120*w; let v;
+      if(d){ v=d[Math.floor(i/120*(d.length-1))]*3.2; } else if(DEMO_ON){ const k=c.dataset.k==='up'?1:1.7; v=Math.sin(i*.38*k+ts/170)*.34*Math.sin(i*.045+ts/1100)+Math.sin(i*1.3+ts/60)*.06+(Math.random()-.5)*.12; } else { v=Math.sin(i*.35+ts/700)*.03+(Math.random()-.5)*.02; }
+      const py=h/2+Math.max(-1,Math.min(1,v))*h*.46; i?x.lineTo(px,py):x.moveTo(px,py); }
+    x.stroke();
+  });
+  requestAnimationFrame(drawWaves);
+}
+requestAnimationFrame(drawWaves);
+
+/* ================= SCREENS ================= */
+let cur='today';
+function setHash(h){ if(!SHOT && !DEMO_ON) history.replaceState(null,'','#'+h); }
+function go(target){
+  const [name,arg]=target.split('/');
+  if(name==='player'){ if(TRI[arg]) openPlayer(null,arg, !SHOT); else openPlayer(+arg||40,null,!SHOT); return; }
+  if($('#player').classList.contains('on')){ $('#player').classList.remove('on'); }
+  closeSheet();
+  cur=name; $$('.screen').forEach(s=>s.classList.toggle('on', s.id==='s-'+name));
+  $$('.tab').forEach(t=>t.classList.toggle('on', t.dataset.go===name));
+  $('#tabs').classList.toggle('hide', ['onboard','cast'].includes(name));
+  if(name==='onboard') obGo(0);
+  if(name==='cast') resetCast();
+  if(name==='result') renderResult(arg==='demo'?DEMO:store.get('last',DEMO));
+  if(name==='library') libFilter(arg||'all');
+  if(name==='today') renderToday();
+  if(name==='bagua' && arg) openTri(arg);
+  $('#s-'+name).scrollTop=0; updateMini(); setHash(target);
+}
+document.addEventListener('click',e=>{ const b=e.target.closest('[data-go]'); if(b){ e.preventDefault(); go(b.dataset.go); } });
+
+/* onboarding */
+let obi=0;
+function obGo(i){ obi=i; $$('.ob').forEach(o=>o.classList.toggle('on',+o.dataset.i===i)); $$('#obdots i').forEach((d,j)=>d.classList.toggle('on',j===i)); $('#obnext').textContent=i===2?'Begin':'Next'; }
+$('#obnext').onclick=()=>{ if(obi<2) obGo(obi+1); else { store.set('onboarded',1); go('today'); } };
+$('#obskip').onclick=()=>{ store.set('onboarded',1); go('today'); };
+$('#tri8').innerHTML = ORDER.map(k=>glyph(TRI[k].l,[],'')).join('').replaceAll('class="gl "','class="gl" style="--w:30px;--h:3.5px;--g:4px"');
+$('#mosaic').innerHTML = ORDER.map(k=>`<div class="sq" style="border-radius:10px">${img(TRI[k].el)}</div>`).join('');
+(function stars(){ const c=$('#stars'), x=c.getContext('2d'); let P2=[];
+  function size(){ const r=c.getBoundingClientRect(); c.width=r.width*2; c.height=r.height*2; P2=Array.from({length:240},()=>({x:Math.random()*c.width,y:Math.random()*c.height,v:.1+Math.random()*.35,s:Math.random()<.1?2.6:1.4})); }
+  size(); addEventListener('resize',size);
+  (function f(){ if(cur==='onboard'){ x.fillStyle='rgba(0,0,0,.35)'; x.fillRect(0,0,c.width,c.height); x.fillStyle='#f2efe8';
+    P2.forEach(p=>{ p.y-=p.v; p.x+=Math.sin(p.y/90)*.15; if(p.y<0){p.y=c.height;p.x=Math.random()*c.width;} x.fillRect(p.x,p.y,p.s,p.s); }); } requestAnimationFrame(f); })();
+})();
+
+/* today */
+function renderToday(){
+  const d=new Date(); $('#today-date').textContent=d.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});
+  const h=d.getHours(); $('#s-today .h1').textContent = h<12?'Good morning.':h<18?'Good afternoon.':'Good evening.';
+  const last=store.get('last',null);
+  $('#lastread').innerHTML = last ? `<button class="lastread" data-go="result"><div class="sq">${visHTML(last.n)}</div><div style="text-align:left"><div class="eyebrow">Your last reading</div><div class="h2" style="margin-top:4px">${HX[last.n][0]} ${HX[last.n][1]}</div><div class="body" style="font-size:12px">${HX[last.n][2]}${last.to?` → ${HX[last.to][0]} ${HX[last.to][1]}`:''}</div></div></button>` : '';
+  $('#scenes').innerHTML = [11,37,31,40].map(n=>`<button class="scene" data-go="player/${n}"><div class="sq">${visHTML(n)}</div><div class="t"><b>${HX[n][0]}</b><span>${HX[n][1]} · ${SCENES[n].en}</span></div></button>`).join('');
+  $('#today-chips').innerHTML = ORDER.map(k=>`<button class="chip" data-go="player/${k}"><b>${TRI[k].zh}</b><small>${TRI[k].el}</small></button>`).join('');
+}
+
+/* cast */
+let castV=[];
+const DEMO={v:[8,9,8,7,8,8]}; // 解 Xie 40: kan below, zhen above; line 2 changing → 16 Yu
+function resetCast(){ castV=[]; $('#castlines').innerHTML=''; $$('.coin').forEach(c=>{c.className='coin';c.textContent='·'}); $('#cast-step').textContent='Line 1 of 6'; $('#castmeta').innerHTML='&nbsp;'; $('#tossbtn').textContent='Toss coins'; }
+function addLine(v){ const yang=v===7||v===9, ch=v===6||v===9; const e=document.createElement('div'); e.className=`cl ${yang?'y':''} ${ch?'ch':''}`; e.innerHTML=`<small>${castV.length}</small><div class="bar"></div><small>${v}</small>`; $('#castlines').appendChild(e); requestAnimationFrame(()=>requestAnimationFrame(()=>e.classList.add('in'))); }
+$('#tossbtn').onclick=()=>{
+  if(castV.length===6){ const r=reading(castV); store.set('last',r); markSeen(r.n); go('result'); return; }
+  const coins=[0,0,0].map(()=>Math.random()<.5?3:2), v=coins.reduce((a,b)=>a+b);
+  $$('.coin').forEach((c,i)=>{ c.className='coin spin'; c.textContent=''; setTimeout(()=>{ c.className='coin'+(coins[i]===3?' h':''); c.textContent=coins[i]===3?'阳':'阴'; },650+i*90); });
+  $('#tossbtn').disabled=true;
+  setTimeout(()=>{ castV.push(v); addLine(v); $('#castmeta').textContent = {6:'Old yin · changing',7:'Young yang',8:'Young yin',9:'Old yang · changing'}[v];
+    $('#cast-step').textContent = castV.length<6?`Line ${castV.length+1} of 6`:'Complete'; $('#tossbtn').textContent = castV.length<6?'Toss coins':'Reveal hexagram'; $('#tossbtn').disabled=false; },1050);
+};
+function reading(v){
+  const lines=v.map(x=>x===7||x===9?1:0), ch=v.map((x,i)=>x===6||x===9?i:-1).filter(i=>i>=0);
+  const n=hexOf(triOfLines(lines.slice(0,3)),triOfLines(lines.slice(3)));
+  let to=null; if(ch.length){ const l2=lines.map((x,i)=>ch.includes(i)?1-x:x); to=hexOf(triOfLines(l2.slice(0,3)),triOfLines(l2.slice(3))); }
+  return {v,n,ch,to,lines,at:Date.now()};
+}
+function renderResult(r){
+  if(!r.n) r=reading(r.v);
+  const h=HX[r.n], {lo,up}=PARTS[r.n], s=SCENES[r.n];
+  $('#s-result').innerHTML = `
+    <div class="row"><button class="pill" data-go="today">Done</button><div class="eyebrow">Your reading</div></div>
+    <div class="res-head"><div><div class="eyebrow">Hexagram ${r.n}</div><div class="zh">${h[0]}</div></div>${glyph(r.lines||hexLines(r.n),r.ch,'trigap').replace('class="gl trigap"','class="gl trigap" style="--w:62px;--h:6px;--g:6px;--tg:6px;margin-bottom:6px"')}</div>
+    <div class="h1" style="font-size:32px">${h[1]} · ${h[2]}</div>
+    <div class="sq res-vis">${visHTML(r.n)}</div>
+    ${s?`<p class="serif" style="font-size:19px;font-style:italic;margin-top:14px;color:var(--mute)">${s.en} / ${s.zh}</p>`:''}
+    <div class="kv"><div><small>Upper 上</small><span>${TRI[up].zh} ${TRI[up].el}</span></div><div><small>Lower 下</small><span>${TRI[lo].zh} ${TRI[lo].el}</span></div>
+      <div><small>You will hear</small><span>${TRI[up].snd}</span></div><div><small>Beneath it</small><span>${TRI[lo].snd}</span></div></div>
+    ${r.to?`<button class="becomes" data-go="player/${r.to}"><span class="zh">${HX[r.to][0]}</span><div><div class="eyebrow" style="color:#fff;text-shadow:0 0 6px rgba(255,255,255,.85),0 0 16px rgba(255,255,255,.45)">Changing line${r.ch.length>1?'s':''} ${r.ch.map(i=>i+1).join(', ')} · becomes</div><div class="serif" style="font-size:19px;margin-top:3px">${r.to} ${HX[r.to][1]} · ${HX[r.to][2]}</div></div></button>`:''}
+    <div style="display:flex;gap:10px;margin-top:18px"><button class="btn" data-go="player/${r.n}">${ICON.play} Listen</button><button class="btn ghost" data-go="cast" style="width:52%">Cast again</button></div>`;
+}
+
+/* bagua */
+$('#grid8').innerHTML = ORDER.map(k=>{ const t=TRI[k]; return `<button class="tile" data-tri="${k}"><div class="sq" style="border-radius:18px"><span class="num">${t.n}</span>${img(t.el)}</div><div class="cap"><b>${t.zh} ${t.py}</b><span>${t.sym} ${t.el}</span></div></button>`; }).join('');
+$$('#grid8 .tile').forEach(b=>b.onclick=()=>openTri(b.dataset.tri));
+function openTri(k){
+  const t=TRI[k], pairs=ORDER.map(o=>hexOf(k,o));
+  $('#sheet').innerHTML = `<div class="grab"></div>
+    <div class="row"><div><div class="eyebrow">Trigram ${t.n} · ${t.sym}</div><div class="h1" style="font-size:44px">${t.zh} ${t.py}</div><div class="body">The ${t.el}</div></div>${glyph(t.l).replace('class="gl "','class="gl" style="--w:54px;--h:6px;--g:7px"')}</div>
+    <div class="sq" style="border-radius:20px;margin-top:16px">${img(t.el)}</div>
+    <div class="kv"><div><small>Recording</small><span>${t.snd}</span></div><div><small>Lines</small><span>${t.l.map(x=>x?'Yang':'Yin').reverse().join(' · ')}</span></div></div>
+    <p class="body" style="margin-top:14px">${t.vis}</p>
+    <div class="eyebrow" style="margin:20px 0 10px">Hexagrams with ${t.el} below</div>
+    <div class="grid64" style="margin-top:0">${pairs.map(cellHTML).join('')}</div>
+    <button class="btn" style="margin-top:18px" data-go="player/${k}">${ICON.play} Listen to ${t.el}</button>`;
+  $('#sheet').scrollTop=0; $('#sheet').classList.add('on'); $('#scrim').classList.add('on');
+}
+function closeSheet(){ $('#sheet').classList.remove('on'); $('#scrim').classList.remove('on'); }
+$('#scrim').onclick=closeSheet;
+
+/* compose */
+let cu='kun', cl='qian';
+function renderCompose(){
+  const ch=(id,sel)=>ORDER.map(k=>`<button class="chip ${k===sel?'on':''}" data-k="${k}"><b>${TRI[k].zh}</b><small>${TRI[k].el}</small></button>`).join('');
+  $('#chips-up').innerHTML=ch('up',cu); $('#chips-lo').innerHTML=ch('lo',cl);
+  $$('#chips-up .chip').forEach(b=>b.onclick=()=>{cu=b.dataset.k;renderCompose()}); $$('#chips-lo .chip').forEach(b=>b.onclick=()=>{cl=b.dataset.k;renderCompose()});
+  const n=hexOf(cl,cu), h=HX[n];
+  $('#comp-vis').innerHTML=visHTML(n); $('#up-l').textContent=TRI[cu].sym; $('#lo-l').textContent=TRI[cl].sym;
+  $('#comp-out').innerHTML=`<div class="zh">${h[0]}</div><div><div class="eyebrow">Hexagram ${n}${SCENES[n]?' · Scene':''}</div><div class="serif" style="font-size:22px;line-height:1.1;margin-top:3px">${h[1]} · ${h[2]}</div>${SCENES[n]?`<div class="body" style="font-size:12px;font-style:italic">${SCENES[n].en}</div>`:''}</div><button class="playfab" data-go="player/${n}" aria-label="Play">${ICON.play}</button>`;
+}
+renderCompose();
+
+/* library */
+function cellHTML(n){ const f=SCENES[n]; return `<button class="cell ${f?'feat':''} ${seen.has(n)?'seen':''}" data-go="player/${n}">${f?img(f.img):''}<span class="n">${n}</span>${glyph(hexLines(n))}<b>${HX[n][0]}</b></button>`; }
+function libFilter(f){
+  $$('.seg button').forEach(b=>b.classList.toggle('on',b.dataset.f===f));
+  let list=Array.from({length:64},(_,i)=>i+1);
+  if(f==='scenes') list=list.filter(n=>SCENES[n]); if(f==='seen') list=list.filter(n=>seen.has(n));
+  $('#grid64').innerHTML = list.length ? list.map(cellHTML).join('') : `<p class="body" style="grid-column:1/-1;padding:30px 0;text-align:center">Nothing here yet. Cast or compose a hexagram to begin.</p>`;
+}
+$$('.seg button').forEach(b=>b.onclick=()=>libFilter(b.dataset.f));
+
+/* ================= BOOT ================= */
+const Q=new URLSearchParams(location.search), SHOT=Q.has('shot');
+if(Q.has('bare')||SHOT||window.self!==window.top) document.body.classList.add('bare');
+(function clock(){ const d=new Date(); $('#clock').textContent=SHOT?'9:41':`${d.getHours()%12||12}:${String(d.getMinutes()).padStart(2,'0')}`; setTimeout(clock,20000); })();
+if(SHOT){ store.set('last',reading(DEMO.v)); [11,40,31,8,24,52].forEach(markSeen); }
+renderToday();
+const start = DEMO_ON ? 'today' : (location.hash.slice(1) || (store.get('onboarded',0)?'today':'onboard'));
+go(start.startsWith('player')?'today':start); if(start.startsWith('player')) go(start);
+if(SHOT && Q.get('shot')==='sheet') openTri(Q.get('k')||'kan');
+if(SHOT && Q.get('shot')==='cast'){ [8,7,9,8].forEach(v=>{castV.push(v);addLine(v)}); $$('.cl').forEach(e=>e.classList.add('in')); $$('.coin').forEach((c,i)=>{c.className='coin'+(i<2?' h':'');c.textContent=i<2?'阳':'阴'}); $('#castmeta').textContent='Young yin'; $('#cast-step').textContent='Line 5 of 6'; }
+if(SHOT && Q.get('shot')==='onboard') obGo(+Q.get('i')||0);
+if(SHOT && Q.get('shot')==='mini'){ P.n=37; P.playing=true; syncPP(); }
+/* ================= AUTO DEMOS (used by the animated mockups) ================= */
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+function centerChip(box, chip){ box.scrollTo({left: chip.offsetLeft - box.clientWidth/2 + chip.offsetWidth/2, behavior:'smooth'}); }
+async function smoothScroll(el, to, ms){ const from=el.scrollTop, t0=performance.now(); while(true){ const t=Math.min(1,(performance.now()-t0)/ms), e=t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2; el.scrollTop=from+(to-from)*e; if(t>=1) break; await sleep(16);} }
+const DEMOS = {
+  async today(){ go('today'); await sleep(1600); const sc=$('#scenes'); for(const x of [262,524,786,0]){ sc.scrollTo({left:x,behavior:'smooth'}); await sleep(2400); } await smoothScroll($('#s-today'),260,1800); await sleep(1400); await smoothScroll($('#s-today'),0,1500); },
+  async reading(){ go('result/demo'); await sleep(2600); await smoothScroll($('#s-result'),400,2600); await sleep(1800); await smoothScroll($('#s-result'),0,2000); await sleep(1400); },
+  async cast(){ go('cast'); await sleep(900); for(let i=0;i<6;i++){ $('#tossbtn').click(); await sleep(1450); } await sleep(300); $('#tossbtn').click(); await sleep(3200); await smoothScroll($('#s-result'),380,1800); await sleep(2200); },
+  async compose(){ go('compose'); const pairs=[['kun','qian'],['xun','li'],['dui','gen'],['zhen','kan'],['li','kan'],['kan','li'],['gen','kun'],['qian','qian']];
+    for(const [u,l] of pairs){ cu=u; cl=l; renderCompose(); centerChip($('#chips-up'),$(`#chips-up .chip[data-k="${u}"]`)); centerChip($('#chips-lo'),$(`#chips-lo .chip[data-k="${l}"]`)); await sleep(2300); } },
+  async player(){ for(const n of [40,37,11,31]){ openPlayer(n,null,false); P.playing=true; syncPP(); await sleep(5200); } },
+  async bagua(){ go('bagua'); await sleep(1200); const s=$('#s-bagua'); await smoothScroll(s,s.scrollHeight-s.clientHeight,4200); await sleep(600); await smoothScroll(s,0,2400);
+    for(const k of ['kan','li']){ openTri(k); await sleep(2600); await smoothScroll($('#sheet'),300,1600); await sleep(1200); closeSheet(); await sleep(900); } },
+  async onboard(){ go('onboard'); for(const i of [0,1,2]){ obGo(i); await sleep(3300); } },
+  async library(){ go('library'); const s=$('#s-library'); await sleep(800); await smoothScroll(s,900,5000); await sleep(500); await smoothScroll(s,0,2500); libFilter('scenes'); await sleep(2500); libFilter('all'); }
+};
+const DM=(location.hash.match(/^#demo-(\w+)/)||[])[1];
+if(DM && DEMOS[DM]){ document.body.classList.add('demo'); (async()=>{ while(true){ try{ await DEMOS[DM](); }catch(e){ await sleep(1000); } } })(); }
+$$('.side [data-go]').forEach(b=>b.addEventListener('click',()=>{ if(b.dataset.go==='onboard') store.set('onboarded',0); }));
+</script>
+<script>if(window.self===window.top){var s=document.createElement("script");s.src="../assets/cursor.js";document.body.appendChild(s);}</script>
+</body>
+</html>

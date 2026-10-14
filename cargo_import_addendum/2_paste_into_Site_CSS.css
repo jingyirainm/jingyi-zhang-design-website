@@ -1,0 +1,75 @@
+/* Addendum Studio page — paste at the END of Cargo: Design > CSS.
+   Replace PAGE_ID (4 places) with the new page's id, or delete the first 3 blocks and set the page layout in Cargo instead. */
+[id="PAGE_ID"].page {
+	justify-content: flex-end;
+	min-height: var(--viewport-height);
+}
+[id="PAGE_ID"] .page-layout {
+	max-width: 72%;
+	padding: 2rem;
+	align-items: flex-end;
+}
+[id="PAGE_ID"] .page-content {
+	background-color: #ffffff;
+	border-radius: 2rem;
+	box-shadow: 0rem 0rem 2rem 0rem rgba(0, 0, 0, 0.25);
+	padding: 2rem 5rem;
+}
+[id="PAGE_ID"] h2 { margin: .4rem 0 0; }
+[id="PAGE_ID"] .caption { display: inline-block; }
+
+/* pipeline */
+.adx-pipe { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: .5rem; margin: .5rem 0 .6rem; }
+.adx-pipe > div { border: 0.1rem solid rgba(0,0,0,.18); border-radius: 1rem; padding: .7rem .7rem .9rem; font-size: .95rem; line-height: 1.25; min-height: 5.6rem; background: #fff; }
+.adx-pipe i { display: block; font-style: normal; font-size: .72rem; color: rgba(0,0,0,.45); margin-bottom: .35rem; letter-spacing: .02em; }
+.adx-pipe .hot { background: #000; color: #fff; border-color: #000; filter: drop-shadow(0.3rem 0.3rem 0.4rem rgba(0,0,0,.25)); }
+.adx-pipe .hot i { color: rgba(255,255,255,.6); }
+
+/* sheet */
+.adx-sheet { overflow-x: auto; border-radius: 1.5rem; border: 0.1rem solid rgba(0,0,0,.12); filter: drop-shadow(0.1rem 0.1rem 0.5rem rgba(0,0,0,.12)); background: #fff; margin: .4rem 0 .6rem; }
+.adx-sheet table { border-collapse: collapse; width: 100%; font-size: .78rem; line-height: 1.35; min-width: 52rem; }
+.adx-sheet th, .adx-sheet td { border-bottom: 0.07rem solid rgba(0,0,0,.08); padding: .45rem .55rem; text-align: left; white-space: nowrap; font-weight: 300; }
+.adx-sheet thead th { font-weight: 500; color: rgba(0,0,0,.6); background: #f6f6f4; }
+.adx-sheet .dept td { background: #000; color: #fff; font-weight: 500; letter-spacing: .06em; font-size: .7rem; }
+.adx-sheet .terms { white-space: normal; min-width: 13rem; background: #f5e2b5; }
+.adx-sheet .hl { background: #f5e2b5; }
+.adx-sheet .m { text-align: right; font-variant-numeric: tabular-nums; }
+.adx-sheet .ok { color: #2d7a4c; } .adx-sheet .se { color: #b8620f; } .adx-sheet .na { color: rgba(0,0,0,.35); }
+
+/* parse */
+.adx-parse { display: grid; grid-template-columns: 1fr 2.5rem 1.25fr; gap: 1rem; align-items: center; margin: .3rem 0; }
+.adx-parse .raw { background: #f5e2b5; border-radius: 1.5rem; padding: 1.2rem 1.4rem; font-size: 1.05rem; line-height: 1.7; }
+.adx-parse .raw u { text-decoration: none; border-bottom: 0.15rem solid; padding-bottom: .05rem; }
+.adx-parse .arr { font-size: 2rem; text-align: center; color: rgba(0,0,0,.4); }
+.adx-parse .fields { display: grid; grid-template-columns: 1fr 1fr; gap: .6rem; }
+.adx-parse .fields > div { border: 0.1rem solid rgba(0,0,0,.15); border-radius: 1rem; padding: .7rem .9rem; font-size: 1.15rem; font-variant-numeric: tabular-nums; }
+.adx-parse small { display: block; font-size: .72rem; color: rgba(0,0,0,.5); }
+.adx-parse .c1 { border-left: 0.35rem solid #9d3434 !important; } .adx-parse u.c1 { border-color: #9d3434; color: #9d3434; }
+.adx-parse .c2 { border-left: 0.35rem solid #0066ff !important; } .adx-parse u.c2 { border-color: #0066ff; color: #0055cc; }
+.adx-parse .c3 { border-left: 0.35rem solid #2d7a4c !important; } .adx-parse u.c3 { border-color: #2d7a4c; color: #2d7a4c; }
+.adx-parse .c4 { border-left: 0.35rem solid #000 !important; } .adx-parse u.c4 { border-color: #000; }
+
+/* OT bands */
+.adx-bands { display: grid; grid-template-columns: 7rem 1fr; gap: .6rem 1rem; align-items: center; margin: .4rem 0 1rem; font-size: .9rem; }
+.adx-bands .tr { display: flex; height: 2.3rem; border-radius: 1.2rem; overflow: hidden; }
+.adx-bands .tr i { font-style: normal; display: flex; align-items: center; justify-content: center; font-size: .78rem; white-space: nowrap; }
+.adx-bands .b1 { background: #ececea; color: rgba(0,0,0,.7); } .adx-bands .b15 { background: #9d3434; color: #fff; } .adx-bands .b2 { background: #000; color: #fff; }
+.adx-bands .ax { display: flex; justify-content: space-between; font-size: .7rem; color: rgba(0,0,0,.4); }
+.adx-bands .ax em { font-style: normal; }
+.adx-calc { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .6rem; }
+.adx-calc > div { border: 0.1rem solid rgba(0,0,0,.15); border-radius: 1rem; padding: .7rem .9rem; font-size: .95rem; font-variant-numeric: tabular-nums; }
+.adx-calc small { display: block; font-size: .72rem; color: rgba(0,0,0,.5); margin-bottom: .2rem; }
+.adx-calc .res { background: #000; color: #fff; border-color: #000; } .adx-calc .res small { color: rgba(255,255,255,.6); }
+
+/* metrics */
+.adx-metrics { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 0.1rem solid #000; margin: .8rem 0 1.6rem; }
+.adx-metrics > div { padding: 1rem 1rem 0 0; }
+.adx-metrics b { display: block; font-size: 3rem; font-weight: 300; line-height: 1; letter-spacing: -.02em; }
+.adx-metrics span { display: block; margin-top: .5rem; font-size: .9rem; color: rgba(0,0,0,.55); line-height: 1.35; }
+
+.mobile .adx-pipe { grid-template-columns: repeat(2, 1fr); }
+.mobile .adx-parse, .mobile .adx-calc, .mobile .adx-metrics { grid-template-columns: 1fr 1fr; }
+.mobile .adx-parse .arr { display: none; }
+.mobile .adx-parse .raw { grid-column: 1 / -1; }
+.mobile .adx-pipe > div, .mobile .adx-parse .raw, .mobile .adx-calc > div { font-size: .55rem; }
+.mobile .adx-metrics b { font-size: 1.4rem; } .mobile .adx-metrics span, .mobile .adx-bands { font-size: .5rem; }

@@ -1,0 +1,130 @@
+/* ============================================================
+   Rainmelon Studio — base layer that re-implements Cargo 3 layout.
+   The original Cargo stylesheet (site.css) is loaded after this.
+   ============================================================ */
+
+/* Fonts: Cargo's Diatype / Arizona are licensed for Cargo-hosted sites only.
+   Open substitutes are mapped to the same family names so site.css works unchanged.
+   To use the real fonts, drop licensed .woff2 files in assets/fonts/ and point the src below at them. */
+@font-face{font-family:"Diatype Variable";src:url(fonts/inter-var.woff2) format("woff2");font-weight:100 900;font-style:normal;font-display:swap}
+@font-face{font-family:"Diatype Variable";src:url(fonts/inter-var-italic.woff2) format("woff2");font-weight:100 900;font-style:italic;font-display:swap}
+@font-face{font-family:"Arizona Text Variable";src:url(fonts/newsreader-var.woff2) format("woff2");font-weight:200 800;font-style:normal;font-display:swap}
+@font-face{font-family:"Arizona Text Variable";src:url(fonts/newsreader-var-italic.woff2) format("woff2");font-weight:200 800;font-style:italic;font-display:swap}
+@font-face{font-family:"Arizona Mix Variable";src:url(fonts/newsreader-var.woff2) format("woff2");font-weight:200 800;font-display:swap}
+@font-face{font-family:"Arizona Serif Variable";src:url(fonts/newsreader-var.woff2) format("woff2");font-weight:200 800;font-display:swap}
+
+/* Cargo scales the whole site from a viewport-based root size (12.96px @ 1440px). */
+html{font-size:0.9vw;-webkit-text-size-adjust:100%}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:#fff;color:rgba(0,0,0,.85);-webkit-font-smoothing:antialiased;font-family:"Diatype Variable",-apple-system,"Segoe UI",sans-serif}
+img,video{max-width:100%}
+b,strong{font-weight:500}
+
+/* ---------- pages ---------- */
+.page{display:flex;width:100%;position:relative}
+.page-layout{display:flex;flex-direction:column;width:100%}
+.page-content{width:100%;position:relative}
+bodycopy{display:block}
+.main{position:relative;z-index:1}
+
+/* pinned pages */
+.pin{position:fixed;left:0;right:0;z-index:30;pointer-events:none}
+.pin .page-layout{pointer-events:auto}
+.pin-left{top:0;height:100vh}
+.pin-left .page{height:100%}
+.pin-left .page-layout{max-height:100vh;overflow-y:auto;scrollbar-width:none}
+.pin-left .page-layout::-webkit-scrollbar{display:none}
+.pin-mtop{top:0;display:none}
+.pin-mbottom{bottom:0;display:none}
+
+/* ---------- columns ---------- */
+column-set{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:var(--gap,2rem);align-items:start}
+column-set .cu{grid-column:span var(--span,12);min-width:0}
+
+/* ---------- media ---------- */
+media-item{display:inline-block;vertical-align:top;position:relative;width:var(--scale,100%);max-width:100%}
+media-item>.mi-frame{width:100%}
+gallery-columnized>media-item,gallery-grid>media-item,gallery-slideshow>media-item{width:100%}
+gallery-columnized>media-item>.mi-frame,gallery-grid>media-item>.mi-frame,gallery-slideshow>media-item>.mi-frame{width:var(--scale,100%);margin:0 auto}
+bodycopy>media-item>.mi-frame,.cu>media-item>.mi-frame{margin:0}
+media-item .media{display:block;width:100%;height:auto}
+media-item .mi-link{display:block;color:inherit}
+media-item.zoomable .media{cursor:zoom-in}
+media-item.linked .media{cursor:pointer}
+media-item.linked:hover .media{opacity:.92}
+media-item .caption{display:block}
+media-item.missing{min-height:2rem}
+
+/* masonry columns (positions set by site.js) */
+gallery-columnized{display:block;position:relative;width:100%}
+gallery-columnized>media-item{position:absolute;top:0;left:0}
+gallery-columnized:not(.ready)>media-item{position:relative;margin-bottom:var(--gap)}
+
+/* grid */
+gallery-grid{display:grid;grid-template-columns:repeat(var(--cols,3),minmax(0,1fr));gap:var(--gap,1rem);align-items:var(--va,start);width:100%}
+
+/* slideshow */
+gallery-slideshow{display:grid;width:100%;position:relative}
+gallery-slideshow>media-item{grid-area:1/1;opacity:0;transition:opacity var(--speed,.8s) ease;pointer-events:none}
+gallery-slideshow>media-item.on{opacity:1;pointer-events:auto}
+gallery-slideshow[data-va="top"]>media-item{align-self:start}
+gallery-slideshow[data-nav="cursor-zones"]{cursor:e-resize}
+gallery-slideshow[data-nav="cursor-zones"].prev-zone{cursor:w-resize}
+gallery-slideshow .ss-count{position:absolute;right:.6rem;bottom:.6rem;font-size:.68rem;padding:.1rem .5rem;border-radius:1rem;background:rgba(255,255,255,.85);color:rgba(0,0,0,.7);pointer-events:none;font-variant-numeric:tabular-nums}
+
+/* freeform */
+gallery-freeform{display:block;position:relative;width:100%}
+gallery-freeform>media-item{position:absolute;left:var(--fx);top:var(--fy);width:var(--fs)}
+gallery-freeform>media-item>.mi-frame{width:100%}
+
+/* marquee */
+marquee-set{display:block;overflow:hidden;width:100%}
+marquee-set .mq-track{display:flex;width:max-content;animation:mq var(--dur,40s) linear infinite}
+marquee-set:hover .mq-track{animation-play-state:paused}
+marquee-set .mq-copy{display:flex;align-items:center;flex:none;padding-right:2rem}
+marquee-set marquee-inner{display:flex;align-items:center;gap:2rem;white-space:nowrap}
+marquee-set marquee-inner column-set{display:flex;gap:3rem}
+marquee-set marquee-inner media-item{width:auto;flex:none}
+marquee-set marquee-inner media-item>.mi-frame{width:auto}
+marquee-set marquee-inner media-item .media{height:14rem;width:auto}
+marquee-set[data-dir="right"] .mq-track{animation-direction:reverse}
+@keyframes mq{to{transform:translateX(-50%)}}
+
+.text-icon{display:inline-block;margin-right:.4em}
+
+/* ---------- lightbox ---------- */
+.lightbox{position:fixed;inset:0;z-index:100;background:#fff;display:flex;align-items:center;justify-content:center;padding:3rem}
+.lightbox[hidden]{display:none}
+.lightbox .lb-stage{max-width:100%;max-height:100%;display:flex}
+.lightbox .lb-stage img,.lightbox .lb-stage video{max-width:100%;max-height:calc(100vh - 6rem);object-fit:contain;display:block}
+.lightbox .lb-close{position:absolute;top:1rem;right:1.4rem;border:0;background:none;font-size:2.4rem;line-height:1;cursor:pointer;color:rgba(0,0,0,.7)}
+.lightbox{cursor:zoom-out}
+
+/* ---------- mobile (Cargo "mobile" mode) ---------- */
+@media (max-width:767px){
+  html{font-size:4.48vw}
+  .pin-left{display:none}
+  .pin-mtop,.pin-mbottom{display:block}
+  .pin .page-layout{max-width:100%!important}
+  .main .page-layout{max-width:100%!important;padding:2vw!important}
+  .main .page-content{padding:4vw!important}
+  .main{padding-top:24vw;padding-bottom:14vw}
+  column-set.mstack{grid-template-columns:1fr;gap:var(--mgap,1rem)}
+  column-set.mstack .cu{grid-column:1/-1}
+  column-set{gap:var(--mgap,1rem)}
+  gallery-grid{grid-template-columns:1fr;gap:var(--mgap,1rem)}
+  gallery-freeform{height:auto!important}
+  gallery-freeform>media-item{position:relative;left:auto;top:auto;width:100%;margin-bottom:1rem}
+  marquee-set marquee-inner media-item .media{height:30vw}
+  .lightbox{padding:1rem}
+  .desk-only{display:none}
+}
+@media (min-width:768px){.mob-only{display:none}}
+@media (prefers-reduced-motion:reduce){marquee-set .mq-track{animation:none}gallery-slideshow>media-item{transition:none}}
+
+.number,a.number{white-space:nowrap}
+
+/* mobile top nav: logo left, links right (Cargo achieved this with runs of spaces) */
+#P0247037352 .nametag{display:flex;align-items:center;gap:.35em;white-space:nowrap}
+#P0247037352 .nametag media-item{margin-right:auto}
+#P0247037352 .nametag br{display:none}

@@ -1,0 +1,79 @@
+[id="R00000YIAPP"].page {
+	justify-content: flex-end;
+	min-height: var(--viewport-height);
+}
+[id="R00000YIAPP"] .page-layout {
+	max-width: 72%;
+	padding: 2rem;
+	align-items: flex-end;
+}
+[id="R00000YIAPP"] .page-content {
+	background-color: #ffffff;
+	border-radius: 2rem;
+	box-shadow: 0rem 0rem 2rem 0rem rgba(0, 0, 0, 0.25);
+	padding: 2rem 5rem;
+}
+[id="R00000YIAPP"] h2 { margin: .4rem 0 0; }
+[id="R00000YIAPP"] .caption { display: inline-block; }
+
+/* live prototype */
+.yix-live { display: grid; grid-template-columns: auto 1fr; gap: 3rem; align-items: center; background: #ffffff; border-radius: 2rem; padding: 3rem 4rem; }
+.yix-phone { width: 302px; height: 650px; border-radius: 46px; background: #000; padding: 8px; overflow: hidden; box-shadow: 0 0 0 .1rem #3a3a3a, 0 2rem 4rem -1rem rgba(0,0,0,.4); }
+.yix-phone iframe { width: 390px; height: 844px; border: 0; display: block; background: #000; zoom: .7385; border-radius: 52px; }
+.yix-livecap { font-size: 1rem; line-height: 1.5; color: rgba(0,0,0,.65); max-width: 22rem; }
+.yix-livecap b { color: #000; font-weight: 500; }
+
+/* 2 → 8 → 64 ladder */
+.yix-ladder { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .6rem; margin: .8rem 0 .5rem; }
+.yix-ladder > div { border: 0.1rem solid rgba(0,0,0,.18); border-radius: 1.2rem; padding: 1rem 1.1rem; }
+.yix-ladder i { display: block; font-style: normal; font-size: 2.6rem; font-weight: 300; line-height: 1; letter-spacing: -.02em; }
+.yix-ladder b { display: block; font-weight: 500; margin-top: .4rem; }
+.yix-ladder span { display: block; font-size: .8rem; color: rgba(0,0,0,.5); margin-top: .2rem; }
+.yix-ladder .hot { background: #000; color: #f2efe8; border-color: #000; }
+.yix-ladder .hot span { color: rgba(242,239,232,.6); }
+
+/* cards */
+.yix-cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .6rem; margin: .6rem 0; }
+.yix-cards.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.yix-cards > div { border: 0.1rem solid rgba(0,0,0,.15); border-radius: 1.2rem; padding: 1rem 1.2rem 1.2rem; font-size: .95rem; line-height: 1.45; color: rgba(0,0,0,.65); }
+.yix-cards i { display: block; font-style: normal; font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; color: rgba(0,0,0,.4); margin-bottom: .5rem; }
+.yix-cards b { display: block; color: #000; font-weight: 500; font-size: 1.1rem; margin-bottom: .35rem; }
+.yix-hmw { background: #000; color: #f2efe8; border-radius: 1.5rem; padding: 1.6rem 2rem; font-size: 1.5rem; line-height: 1.35; font-weight: 300; }
+
+/* migration map */
+.yix-map { overflow-x: auto; border-radius: 1.5rem; border: 0.1rem solid rgba(0,0,0,.12); background: #fff; margin: .4rem 0; }
+.yix-map table { border-collapse: collapse; width: 100%; font-size: .9rem; line-height: 1.4; min-width: 46rem; }
+.yix-map th, .yix-map td { border-bottom: 0.07rem solid rgba(0,0,0,.08); padding: .7rem .8rem; text-align: left; vertical-align: top; font-weight: 300; }
+.yix-map thead th { font-weight: 500; color: rgba(0,0,0,.55); background: #f6f6f4; font-size: .78rem; letter-spacing: .04em; }
+.yix-map td b { font-weight: 500; }
+.yix-map td:nth-child(3) { white-space: nowrap; }
+.yix-map td:nth-child(4) { color: rgba(0,0,0,.55); }
+.yix-map .ar { color: rgba(0,0,0,.35); width: 1.5rem; }
+
+/* cast values */
+.yix-cast { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .6rem; margin: .4rem 0; }
+.yix-cast > div { background: #000; color: #f2efe8; border-radius: 1.2rem; padding: 1rem 1.1rem; }
+.yix-cast b { display: block; font-size: 2.4rem; font-weight: 300; line-height: 1; }
+.yix-cast span { display: block; font-size: .85rem; margin-top: .4rem; }
+.yix-cast em { display: block; font-style: normal; font-size: .75rem; color: #fff; text-shadow: 0 0 6px rgba(255,255,255,.85),0 0 16px rgba(255,255,255,.45); margin-top: .15rem; }
+
+/* tokens */
+.yix-tokens { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)) 1.6fr; gap: .6rem; margin: .4rem 0; }
+.yix-tokens > div { border-radius: 1.2rem; padding: 1rem 1.1rem; font-size: .8rem; min-height: 6.5rem; display: flex; flex-direction: column; justify-content: space-between; border: 0.1rem solid rgba(0,0,0,.12); }
+.yix-tokens b { font-weight: 500; font-size: .95rem; }
+.yix-tokens .type { background: #f6f6f4; color: rgba(0,0,0,.6); }
+
+.mobile .yix-live { grid-template-columns: 1fr; padding: 1.5rem; justify-items: center; gap: 1rem; }
+.mobile .yix-phone { display: none; }
+.mobile .yix-livecap { font-size: .65rem !important; max-width: none; }
+.mobile .yix-cards b { font-size: .7rem; }
+.mobile .yix-cards i { font-size: .45rem; }
+.mobile .yix-tokens > div { font-size: .5rem; min-height: 4rem; }
+.mobile .yix-tokens b { font-size: .6rem; }
+.mobile .yix-cast span, .mobile .yix-cast em { font-size: .55rem; }
+.mobile .yix-livecap, .mobile .yix-cards > div, .mobile .yix-map table, .mobile .yix-ladder span { font-size: .55rem; }
+.mobile .yix-ladder, .mobile .yix-cast, .mobile .yix-cards, .mobile .yix-cards.three { grid-template-columns: 1fr 1fr; }
+.mobile .yix-tokens { grid-template-columns: 1fr 1fr; }
+.mobile .yix-tokens .type { grid-column: 1 / -1; }
+.mobile .yix-hmw { font-size: .8rem; padding: 1rem 1.2rem; }
+.mobile .yix-ladder i, .mobile .yix-cast b { font-size: 1.4rem; }

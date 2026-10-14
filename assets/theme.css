@@ -1,0 +1,27 @@
+/* ===== Light / dark mode =====
+   Dark mode inverts the whole page tone (so every inline Cargo colour adapts), then re-inverts
+   photos, video and embeds so they keep their real colours. The Jingyi Zhang logo is deliberately
+   left inverted, which turns the black line drawing white. */
+html{background:#fff;transition:filter .5s cubic-bezier(.22,.8,.2,1)}
+html[data-theme="dark"]{filter:invert(.92) hue-rotate(180deg)}
+/* keep media true-colour */
+html[data-theme="dark"] :is(img,video,iframe,canvas,picture):not(:where(.th-keep) *){filter:invert(1) hue-rotate(180deg)!important}
+html[data-theme="dark"] [style*="background-image"]:not(:where(.th-keep) *){filter:invert(1) hue-rotate(180deg)!important}
+/* the logo becomes white */
+html[data-theme="dark"] img[src*="JingyiZhang_logo"]{filter:none!important}
+/* already-dark product panels stay dark (their contents are then left alone) */
+html[data-theme="dark"] .th-keep{filter:invert(1) hue-rotate(180deg)}
+/* Change Mode control */
+.th-toggle{all:unset;cursor:pointer;display:inline-flex;align-items:center;gap:.5em;color:inherit;font:inherit;line-height:inherit}
+.th-toggle .th-ico{display:inline-block;flex:none;width:1.05em;height:1.05em;border-radius:50%;border:1.5px solid currentColor;box-sizing:border-box;background:linear-gradient(90deg,currentColor 50%,transparent 50%);transition:transform .6s cubic-bezier(.22,.8,.2,1)}
+html[data-theme="dark"] .th-toggle .th-ico{transform:rotate(180deg)}
+.th-toggle:hover{opacity:.7}
+.th-toggle:focus-visible{outline:2px solid currentColor;outline-offset:3px;border-radius:4px}
+.th-float{position:fixed;right:clamp(16px,2.4vw,32px);top:calc(env(safe-area-inset-top,0px) + 18px);z-index:55;padding:9px 14px;border-radius:99px;font:500 13px/1 Inter,'Diatype',-apple-system,sans-serif;color:#111;
+  background:rgba(255,255,255,.72);backdrop-filter:blur(14px) saturate(1.4);-webkit-backdrop-filter:blur(14px) saturate(1.4);box-shadow:0 0 0 1px rgba(17,17,17,.1),0 2px 10px -4px rgba(0,0,0,.12)}
+@media (prefers-reduced-motion:reduce){html{transition:none}.th-toggle .th-ico{transition:none}}
+
+/* phones: the floating control gives way to the one in the top bar (case studies hide that bar) */
+body.mobile:not(.case-mode) .th-float{display:none}
+.th-inbar{font-size:0!important;vertical-align:middle;margin-left:.15em}
+.th-inbar .th-ico{width:13px;height:13px}

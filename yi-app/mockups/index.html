@@ -1,0 +1,202 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Yi mockups</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+@font-face{font-family:Inter;src:url(../../assets/fonts/inter-var.woff2) format('woff2');font-weight:100 900}
+:root{--ink:#070707;--line:#F2EFE8;--gold:#E9C27A;--stone:#E4E1D8;--ash:#8E8A80;
+  --serif:'Cormorant Garamond','Songti SC',Georgia,serif;--sans:Inter,-apple-system,'Helvetica Neue',sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#333;font-family:var(--sans);display:flex;flex-direction:column;gap:40px;padding:40px;align-items:flex-start}
+.cv{position:relative;overflow:hidden;flex:none}
+/* phone */
+.ph{position:relative;width:var(--w,300px);aspect-ratio:390/844;border-radius:calc(var(--w,300px)*.15);background:#111;padding:calc(var(--w,300px)*.032);
+  box-shadow:0 0 0 1px #2c2c2c inset,0 0 0 calc(var(--w,300px)*.006) #4a4a4a,0 calc(var(--w,300px)*.12) calc(var(--w,300px)*.22) calc(var(--w,300px)*-.06) rgba(0,0,0,.55)}
+.ph .scr{position:relative;width:100%;height:100%;border-radius:calc(var(--w,300px)*.12);overflow:hidden;background:#000}
+.ph .scr>img{width:100%;height:100%;object-fit:cover;display:block}
+.ph::after{content:'';position:absolute;top:calc(var(--w,300px)*.058);left:50%;transform:translateX(-50%);width:30%;height:calc(var(--w,300px)*.085);border-radius:99px;background:#000;z-index:3}
+.ph.light{background:#d9d6cd;box-shadow:0 0 0 calc(var(--w,300px)*.006) #bdb9ae,0 calc(var(--w,300px)*.12) calc(var(--w,300px)*.22) calc(var(--w,300px)*-.06) rgba(40,30,10,.35)}
+.ui{width:390px;height:844px;transform-origin:0 0;position:absolute;left:0;top:0;color:var(--line)}
+
+/* ===== A · HERO ===== */
+#hero{width:1600px;height:1000px;background:radial-gradient(90% 80% at 72% 55%,#151515 0%,#070707 60%);color:var(--line)}
+#hero canvas{position:absolute;inset:0}
+#hero .yi{position:absolute;right:-60px;top:-120px;font-family:var(--serif);font-weight:300;font-size:1100px;line-height:1;color:transparent;-webkit-text-stroke:1px rgba(242,239,232,.07)}
+#hero .copy{position:absolute;left:110px;top:140px;width:560px;z-index:4}
+#hero .eb{font-size:13px;letter-spacing:.24em;text-transform:uppercase;color:rgba(242,239,232,.55)}
+#hero h1{font-family:var(--serif);font-weight:300;font-size:96px;line-height:.94;margin:26px 0 22px;letter-spacing:-.01em}
+#hero h1 em{font-style:italic}
+#hero p{font-size:19px;line-height:1.55;color:rgba(242,239,232,.66);max-width:430px}
+#hero .tags{display:flex;gap:10px;margin-top:38px}
+#hero .tags span{border:1px solid rgba(242,239,232,.22);border-radius:99px;padding:9px 16px;font-size:13px}
+#hero .tags span.g{border-color:rgba(233,194,122,.5);color:var(--gold)}
+#hero .meta{position:absolute;left:110px;bottom:84px;display:flex;gap:60px;z-index:4}
+#hero .meta div{font-family:var(--serif);font-size:54px;font-weight:300;line-height:1}
+#hero .meta small{display:block;font-family:var(--sans);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:rgba(242,239,232,.45);margin-top:8px}
+#hero .stage{position:absolute;left:640px;top:0;width:960px;height:1000px;perspective:2400px}
+#hero .stage .ph{position:absolute}
+#hero .p1{--w:300px;left:120px;top:250px;transform:rotateY(22deg) rotateX(4deg) rotateZ(-2deg);opacity:.92}
+#hero .p2{--w:350px;left:330px;top:110px;transform:rotateY(14deg) rotateX(4deg);z-index:2}
+#hero .p3{--w:300px;left:610px;top:300px;transform:rotateY(8deg) rotateX(4deg) rotateZ(1deg);z-index:3}
+#hero .glow{position:absolute;left:420px;top:620px;width:520px;height:260px;background:radial-gradient(closest-side,rgba(233,194,122,.13),transparent);filter:blur(10px)}
+
+/* ===== B · STORE PANELS ===== */
+.store{width:645px;height:1398px;padding:120px 64px 0;text-align:center}
+.store.dark{background:var(--ink);color:var(--line)}
+.store.paper{background:var(--stone);color:#111}
+.store .k{font-size:14px;letter-spacing:.24em;text-transform:uppercase;opacity:.5}
+.store h2{font-family:var(--serif);font-weight:300;font-size:74px;line-height:.98;margin:20px auto 0;max-width:500px;text-wrap:balance}
+.store h2 em{font-style:italic}
+.store .ph{--w:430px;position:absolute;left:50%;top:470px;transform:translateX(-50%)}
+.store .zh{position:absolute;font-family:var(--serif);font-weight:300;font-size:420px;line-height:1;bottom:-60px;left:-40px;opacity:.06}
+
+/* ===== C · ECOSYSTEM ===== */
+#eco{width:1600px;height:1000px;background:var(--stone);color:#111}
+#eco .ttl{position:absolute;left:96px;top:86px}
+#eco .ttl .k{font-size:13px;letter-spacing:.24em;text-transform:uppercase;color:#6d695f}
+#eco .ttl h2{font-family:var(--serif);font-weight:300;font-size:64px;line-height:1;margin-top:12px}
+#eco .ttl h2 em{font-style:italic}
+#eco .ph{position:absolute;--w:340px}
+#eco .l{left:150px;top:205px}
+#eco .h{left:560px;top:180px;--w:360px}
+#eco .iconwrap{position:absolute;left:1060px;top:300px;display:flex;flex-direction:column;align-items:flex-start;gap:30px}
+#eco .cap{position:absolute;font-size:13px;color:#6d695f;letter-spacing:.04em}
+.icon{width:var(--s,300px);height:var(--s,300px);border-radius:calc(var(--s,300px)*.225);background:radial-gradient(120% 100% at 50% 0%,#1c1c1c,#000 70%);position:relative;overflow:hidden;
+  box-shadow:0 calc(var(--s,300px)*.08) calc(var(--s,300px)*.16) calc(var(--s,300px)*-.06) rgba(30,20,0,.45),0 0 0 1px rgba(255,255,255,.05) inset}
+.icon .gl{position:absolute;left:24%;right:24%;top:22%;bottom:22%;display:flex;flex-direction:column;justify-content:space-between}
+.icon .gl i{display:flex;justify-content:space-between;height:9.5%}
+.icon .gl i::before,.icon .gl i::after{content:'';background:var(--line);width:42%;border-radius:1px}
+.icon .gl i.y::before{width:100%}.icon .gl i.y::after{display:none}
+.icon .gl i.c::before,.icon .gl i.c::after{background:var(--gold)}
+#eco .spec{font-size:14px;line-height:1.6;color:#4c483f;max-width:380px}
+#eco .spec b{font-family:var(--serif);font-weight:400;font-size:34px;color:#111;display:block;line-height:1.05;margin-bottom:8px}
+#eco .sizes{display:flex;gap:22px;align-items:flex-end}
+
+/* lock screen */
+.lock{background:#000}
+.lock .wp{position:absolute;inset:0;background:url(../../assets/projects/yi/still_Xie.jpg) center 70%/cover;filter:brightness(.8)}
+.lock .wp2{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.25),rgba(0,0,0,0) 40%,rgba(0,0,0,.6))}
+.lock .date{position:absolute;top:92px;width:100%;text-align:center;font-size:19px;font-weight:500;opacity:.85}
+.lock .time{position:absolute;top:112px;width:100%;text-align:center;font-size:104px;font-weight:600;letter-spacing:-2px;opacity:.92}
+.lock .np{position:absolute;left:14px;right:14px;bottom:110px;border-radius:26px;padding:16px;background:rgba(40,40,40,.55);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px)}
+.lock .np .row{display:flex;gap:12px;align-items:center}
+.lock .np .art{width:52px;height:52px;border-radius:10px;background:url(../../assets/projects/yi/still_Xie.jpg) center/cover}
+.lock .np b{font-family:var(--serif);font-weight:400;font-size:21px;display:block;line-height:1.05}
+.lock .np small{font-size:12.5px;opacity:.65}
+.lock .bar{height:4px;border-radius:2px;background:rgba(255,255,255,.25);margin:16px 0 6px;position:relative}
+.lock .bar::after{content:'';position:absolute;left:0;top:0;bottom:0;width:38%;background:var(--line);border-radius:2px}
+.lock .tm{display:flex;justify-content:space-between;font-size:11px;opacity:.55}
+.lock .ctl{display:flex;justify-content:center;gap:46px;align-items:center;margin-top:8px}
+.lock .ctl svg{fill:var(--line)}
+.lock .wv{display:flex;flex-direction:column;gap:6px;margin-top:10px}
+.lock .flash{position:absolute;bottom:34px;left:44px;right:44px;display:flex;justify-content:space-between}
+.lock .flash span{width:50px;height:50px;border-radius:50%;background:rgba(40,40,40,.5);backdrop-filter:blur(10px)}
+.lock .home{position:absolute;bottom:9px;left:50%;transform:translateX(-50%);width:140px;height:5px;border-radius:3px;background:rgba(255,255,255,.85)}
+.st{position:absolute;top:0;left:0;right:0;height:54px;display:flex;justify-content:space-between;align-items:center;padding:8px 34px 0 42px;font-size:16px;font-weight:600;z-index:2}
+
+/* home screen */
+.homes .app .icon i{width:auto;height:9.5%;border-radius:0;background:none}
+.homes{background:linear-gradient(170deg,#2b2925 0%,#121110 55%,#050505 100%)}
+.homes .grid{position:absolute;top:70px;left:26px;right:26px;display:grid;grid-template-columns:repeat(4,1fr);gap:26px 20px}
+.homes .app{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:11.5px;color:rgba(255,255,255,.85)}
+.homes .app i{width:62px;height:62px;border-radius:15px;background:rgba(255,255,255,.1)}
+.homes .wid{grid-column:span 2;grid-row:span 2;border-radius:24px;background:#0a0a0a;overflow:hidden;position:relative;height:160px;border:1px solid rgba(255,255,255,.06)}
+.homes .wid .im{position:absolute;inset:0;background:url(../../assets/projects/yi/still_Xie.jpg) center 80%/cover;opacity:.75}
+.homes .wid .tx{position:absolute;left:14px;top:12px;right:12px}
+.homes .wid .tx small{font-size:10px;letter-spacing:.16em;text-transform:uppercase;opacity:.6}
+.homes .wid .tx b{display:block;font-family:var(--serif);font-weight:300;font-size:46px;line-height:1;margin-top:4px}
+.homes .wid .tx span{font-size:11px;opacity:.75}
+.homes .wid2{grid-column:span 4;height:150px;border-radius:24px;background:rgba(20,20,20,.75);border:1px solid rgba(255,255,255,.06);padding:14px 16px;display:flex;gap:14px;align-items:center}
+.homes .wid2 .sq{width:112px;height:112px;border-radius:14px;background:url(../../assets/projects/yi/still_Tai.jpg) center/cover;flex:none}
+.homes .wid2 small{font-size:10px;letter-spacing:.16em;text-transform:uppercase;opacity:.55}
+.homes .wid2 b{display:block;font-family:var(--serif);font-weight:400;font-size:24px;line-height:1.05;margin:4px 0}
+.homes .wid2 span{font-size:11.5px;opacity:.65;line-height:1.35;display:block}
+.homes .dock{position:absolute;left:14px;right:14px;bottom:22px;height:92px;border-radius:32px;background:rgba(255,255,255,.12);display:flex;justify-content:space-around;align-items:center;padding:0 10px}
+.homes .dock i{width:62px;height:62px;border-radius:15px;background:rgba(255,255,255,.12)}
+.homes .dots{position:absolute;bottom:128px;left:50%;transform:translateX(-50%);display:flex;gap:7px}
+.homes .dots i{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.35)}.homes .dots i:first-child{background:#fff}
+</style></head>
+<body>
+
+<!-- ============ A · HERO ============ -->
+<section class="cv" id="hero">
+  <canvas id="stars" width="3200" height="2000"></canvas>
+  
+  <div class="copy">
+    <div class="eb">Yi · I Ching Soundscapes</div>
+    <h1>The Book of Changes, <em>made audible.</em></h1>
+    <p>Eight natural sounds, drawn as vibrating lines in p5.js, become sixty-four hexagrams you can cast, compose and listen to.</p>
+    <div class="tags"><span>iPhone app concept</span><span class="g">64 hexagrams</span><span>Sound-first</span></div>
+  </div>
+  <div class="meta"><div>2<small>Symbols</small></div><div>8<small>Sounds</small></div><div>64<small>Scenes</small></div></div>
+  <div class="stage"><div class="glow"></div>
+    <div class="ph p1"><div class="scr"><img src="../../assets/projects/yi/screens/07_bagua.png"></div></div>
+    <div class="ph p2"><div class="scr"><img src="../../assets/projects/yi/screens/11_player_xie.png"></div></div>
+    <div class="ph p3"><div class="scr"><img src="../../assets/projects/yi/screens/09_compose.png"></div></div>
+  </div>
+</section>
+
+<!-- ============ B · STORE PANELS ============ -->
+<section class="cv store dark" id="store1"><div class="zh" style="color:#fff">卦</div><div class="k">Cast</div><h2>Toss three coins. <em>Hear your hexagram.</em></h2>
+  <div class="ph"><div class="scr"><img src="../../assets/projects/yi/screens/06_result.png"></div></div></section>
+<section class="cv store paper" id="store2"><div class="zh">八</div><div class="k">The eight trigrams</div><h2>Eight natural sounds, <em>drawn in p5.js.</em></h2>
+  <div class="ph light"><div class="scr"><img src="../../assets/projects/yi/screens/07_bagua.png"></div></div></section>
+<section class="cv store dark" id="store3"><div class="zh" style="color:#fff">合</div><div class="k">Compose</div><h2>Pair any two. <em>Sixty-four scenes.</em></h2>
+  <div class="ph"><div class="scr"><img src="../../assets/projects/yi/screens/09_compose.png"></div></div></section>
+<section class="cv store paper" id="store4"><div class="zh">听</div><div class="k">Listen</div><h2>Two layers, <em>one landscape.</em></h2>
+  <div class="ph light"><div class="scr"><img src="../../assets/projects/yi/screens/12_player_jiaren.png"></div></div></section>
+<section class="cv store dark" id="store5"><div class="zh" style="color:#fff">文</div><div class="k">About</div><h2>A framework, <em>not a fortune.</em></h2>
+  <div class="ph"><div class="scr"><img src="../../assets/projects/yi/screens/02_onboard_2.png"></div></div></section>
+
+<!-- ============ C · ECOSYSTEM ============ -->
+<section class="cv" id="eco">
+  <div class="ttl"><div class="k">Beyond the app</div><h2>Listening, <em>wherever the phone is.</em></h2></div>
+  <div class="ph l"><div class="scr lock"><div class="ui" id="lockui">
+    <div class="wp"></div><div class="wp2"></div>
+    <div class="st"><span></span><span></span></div>
+    <div class="date">Friday, October 9</div><div class="time">9:41</div>
+    <div class="np"><div class="row"><div class="art"></div><div style="flex:1"><b>解 Xie · Deliverance</b><small>On the River, Before the Summer Rain</small></div>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F2EFE8" stroke-width="1.4"><circle cx="12" cy="12" r="9"/><path d="M8 12h8M12 8v8" stroke-linecap="round"/></svg></div>
+      <div class="wv"><canvas id="w1" width="700" height="40" style="width:100%;height:20px"></canvas><canvas id="w2" width="700" height="40" style="width:100%;height:20px"></canvas></div>
+      <div class="bar"></div><div class="tm"><span>8:02</span><span>Sleep timer · 20 min</span></div>
+      <div class="ctl"><svg width="26" height="26" viewBox="0 0 24 24"><path d="M6 5h2v14H6zM20 5v14L9 12z"/></svg><svg width="34" height="34" viewBox="0 0 24 24"><rect x="6" y="4.5" width="4" height="15" rx="1"/><rect x="14" y="4.5" width="4" height="15" rx="1"/></svg><svg width="26" height="26" viewBox="0 0 24 24"><path d="M16 5h2v14h-2zM4 5v14l11-7z"/></svg></div>
+    </div>
+    <div class="flash"><span></span><span></span></div><div class="home"></div>
+  </div></div></div>
+  <div class="cap" style="left:150px;top:962px">Lock screen · Now resonating</div>
+
+  <div class="ph h"><div class="scr homes"><div class="ui" id="homeui">
+    <div class="st"><span>9:41</span><span></span></div>
+    <div class="grid">
+      <div class="wid"><div class="im"></div><div class="tx"><small>Today's cast</small><b>解</b><span>Xie · Thunder over Water</span></div></div>
+      <div class="app"><i></i></div><div class="app"><i></i></div>
+      <div class="app"><div class="icon" style="--s:62px"><div class="gl"><i></i><i></i><i class="y"></i><i></i><i class="y c"></i><i></i></div></div>Yi</div><div class="app"><i></i></div>
+      <div class="wid2"><div class="sq"></div><div><small>Scene of the week</small><b>泰 Tai · Peace</b><span>Gaze at the Earth, in the Cosmos. Earth above, Heaven below.</span></div></div>
+      <div class="app"><i></i></div><div class="app"><i></i></div><div class="app"><i></i></div><div class="app"><i></i></div>
+    </div>
+    <div class="dots"><i></i><i></i></div>
+    <div class="dock"><i></i><i></i><i></i><i></i></div>
+  </div></div></div>
+  <div class="cap" style="left:560px;top:975px">Home screen · Today's cast and Scene of the week widgets</div>
+
+  <div class="iconwrap">
+    <div class="sizes">
+      <div class="icon" style="--s:230px"><div class="gl"><i></i><i></i><i class="y"></i><i></i><i class="y c"></i><i></i></div></div>
+      <div class="icon" style="--s:120px"><div class="gl"><i></i><i></i><i class="y"></i><i></i><i class="y c"></i><i></i></div></div>
+      <div class="icon" style="--s:64px"><div class="gl"><i></i><i></i><i class="y"></i><i></i><i class="y c"></i><i></i></div></div>
+    </div>
+    <div class="spec"><b>App icon</b>Hexagram 40, Xie, drawn top to bottom. The gold line is its changing line, the one place the app spends its accent.</div>
+  </div>
+</section>
+
+<script>
+// fit the 390×844 UI layers into their phone screens
+document.querySelectorAll('.ui').forEach(u=>{ const w=u.parentElement.getBoundingClientRect().width; u.style.transform=`scale(${w/390})`; });
+// starfield
+(function(){ const c=document.getElementById('stars'), x=c.getContext('2d'); let s=7;
+  const r=()=>{s=(s*16807)%2147483647;return s/2147483647};
+  for(let i=0;i<900;i++){ const px=r()*3200, py=r()*2000, a=.15+r()*.55, z=r()<.06?3.4:1.6; x.fillStyle=`rgba(242,239,232,${a})`; x.fillRect(px,py,z,z); } })();
+// lock-screen waveforms (static, drawn like the installation's lines)
+[['w1',.9,7],['w2',.5,3]].forEach(([id,amp,f])=>{ const c=document.getElementById(id), x=c.getContext('2d'); x.strokeStyle='#F2EFE8'; x.lineWidth=2.4; x.beginPath();
+  for(let i=0;i<=200;i++){ const px=i/200*700, py=20+Math.sin(i*.31*f/7)*amp*8+Math.sin(i*1.7)*amp*4+Math.sin(i*.07)*amp*3; i?x.lineTo(px,py):x.moveTo(px,py);} x.stroke(); });
+</script>
+</body></html>
