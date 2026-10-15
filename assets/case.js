@@ -107,5 +107,7 @@
   addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
   addEventListener('resize', () => { const a = active; active = -2; setActive(a); });
   onScroll();
+  // Project details retain one return link; chapter guides belong to Work case studies.
+  if(!isWork){nav.remove();sheet.remove();nx.remove();prog.remove();document.body.classList.add('project-detail-mode');}
   document.dispatchEvent(new Event('rs-case-ready'));
 })();

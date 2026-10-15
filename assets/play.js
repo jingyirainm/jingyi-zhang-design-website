@@ -170,7 +170,6 @@
 
   let modal = null;
   function open(it) {
-    if(matchMedia('(min-width:768px)').matches && it.dataset.plHref){location.href=new URL(it.dataset.plHref.replace(/\.html$/, '/'),document.baseURI).href;return;}
     close(true);
     const src = it.querySelector('.media'); if (!src) return;
     modal = document.createElement('div'); modal.className = 'pl-modal'; modal.setAttribute('role', 'dialog'); modal.setAttribute('aria-modal', 'true');
