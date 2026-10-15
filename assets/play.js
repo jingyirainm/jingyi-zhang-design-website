@@ -170,12 +170,12 @@
 
   let modal = null, savedScroll = 0, selectedCard = null;
   const panelCSS=document.createElement('style');
-  panelCSS.textContent=`.project-inline-open{overflow-anchor:none}.project-inline{width:100%;max-width:1100px;margin:0 auto;animation:projectAppear .35s ease}.project-inline-back{display:inline-flex;align-items:center;min-height:44px;padding:8px 18px;margin:0 0 24px;border:1px solid #ddd;border-radius:24px;background:transparent;color:inherit;font:inherit;cursor:pointer}.project-inline iframe{display:block;width:100%;border:0;min-height:400px}.project-inline h3{font-weight:400}.project-inline img,.project-inline video{display:block;max-width:100%;height:auto;margin:0 auto}.project-inline p{text-align:left;line-height:1.65}.project-inline-open .mf-wrap{display:none!important}.project-inline-open .pl-sec{display:none!important}.project-inline-open .project-inline{display:block!important}@keyframes projectAppear{from{opacity:0}to{opacity:1}}@media(prefers-reduced-motion:reduce){.project-inline{animation:none}}`;
+  panelCSS.textContent=`.project-inline-open{overflow-anchor:none}.project-inline{width:100%;max-width:1100px;margin:0 auto;animation:projectAppear .35s ease}.project-inline-back{display:inline-flex;align-items:center;gap:8px;padding:9px 14px 9px 11px;margin:0 0 24px;border:0;border-radius:99px;font:500 13px/1 Inter,'Diatype',-apple-system,sans-serif;color:#111;background:rgba(255,255,255,.72);backdrop-filter:blur(14px) saturate(1.4);-webkit-backdrop-filter:blur(14px) saturate(1.4);box-shadow:0 0 0 1px rgba(17,17,17,.1),0 2px 10px -4px rgba(0,0,0,.12);transition:transform .3s cubic-bezier(.22,.8,.2,1),box-shadow .3s;cursor:pointer}.project-inline-back:hover{transform:translateX(-2px);box-shadow:0 0 0 1px rgba(17,17,17,.18),0 3px 12px -4px rgba(0,0,0,.16)}.project-inline-back svg{transition:transform .3s cubic-bezier(.22,.8,.2,1)}.project-inline-back:hover svg{transform:translateX(-3px)}.project-inline-back:focus-visible{outline:2px solid #111;outline-offset:2px}.project-inline iframe{display:block;width:100%;border:0;min-height:400px}.project-inline h3{font-weight:400}.project-inline img,.project-inline video{display:block;max-width:100%;height:auto;margin:0 auto}.project-inline p{text-align:left;line-height:1.65}.project-inline-open .mf-wrap{display:none!important}.project-inline-open .pl-sec{display:none!important}.project-inline-open .project-inline{display:block!important}@keyframes projectAppear{from{opacity:0}to{opacity:1}}@media(prefers-reduced-motion:reduce){.project-inline{animation:none}}`;
   document.head.appendChild(panelCSS);
   function open(it) {
     close(true); savedScroll=scrollY;selectedCard=it;
     modal=document.createElement('section');modal.className='project-inline';
-    const back=document.createElement('button');back.type='button';back.className='project-inline-back';back.textContent='← Back to Projects';back.addEventListener('click',()=>close());modal.appendChild(back);
+    const back=document.createElement('button');back.type='button';back.className='project-inline-back';back.innerHTML='<svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M8.5 2.5 4 7l4.5 4.5"/></svg>Back to Projects';back.addEventListener('click',()=>close());modal.appendChild(back);
     const href=it.dataset.plHref;
     if(href){
       const frame=document.createElement('iframe');frame.title=it.dataset.plTitle+' project details';
@@ -190,7 +190,11 @@
   }
   function close(now) {
     if(!modal)return;modal.remove();modal=null;document.body.classList.remove('project-inline-open');relayout();
-    if(!now){const u=new URL(location.href);u.searchParams.delete('project');history.replaceState(null,'',u);window.scrollTo({top:savedScroll,behavior:'instant'});selectedCard?.focus({preventScroll:true});}
+    if(!now){const u=new URL(location.href);u.searchParams.delete('project');history.replaceState(null,'',u);window.scrollTo({top:savedScroll,behavior:'instant'});selectedCard?.focus({preventScroll:true});
+      if(!matchMedia('(prefers-reduced-motion: reduce)').matches){
+        [bc,document.querySelector('.mf-wrap')].filter(Boolean).forEach(el=>el.animate([{opacity:0},{opacity:1}],{duration:1144,delay:120,easing:'ease',fill:'backwards'}));
+      }
+    }
   }
   addEventListener('message',e=>{const f=modal?.querySelector('iframe');if(e.origin===location.origin&&f&&e.source===f.contentWindow&&e.data?.type==='project-height'){f.style.height=Math.max(400,Math.min(100000,e.data.height))+'px';}});
   addEventListener('keydown',e=>{if(e.key==='Escape')close();});
