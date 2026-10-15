@@ -345,6 +345,10 @@ for _path in sorted(_glob.glob(os.path.join(ROOT, '*.html'))):
 with open(os.path.join(ROOT, 'assets', 'mobile-pages.js'), 'w', encoding='utf-8') as _out:
     _out.write('window.rsMobilePages=' + json.dumps(_mobile_pages, ensure_ascii=False) + ';\n')
 
-# Keep the conventional server entry point available.
+# Serve the homepage at the root; preserve the previously shared URL.
+_home_path = os.path.join(ROOT, 'jingyizhang-design.html')
+_home_html = open(_home_path, encoding='utf-8').read()
 with open(os.path.join(ROOT, 'index.html'), 'w', encoding='utf-8') as _entry:
-    _entry.write('<!doctype html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="refresh" content="0;url=jingyizhang-design.html"><title>Rainmelon Studio</title></head><body><a href="jingyizhang-design.html">Rainmelon Studio</a></body></html>')
+    _entry.write(_home_html)
+with open(_home_path, 'w', encoding='utf-8') as _entry:
+    _entry.write('<!doctype html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="refresh" content="0;url=./"><title>Jingyi Zhang</title></head><body><a href="./">Visit homepage</a></body></html>')
