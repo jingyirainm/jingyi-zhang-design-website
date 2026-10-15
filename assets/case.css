@@ -69,3 +69,5 @@ body.case-mode [data-cm-sec]{scroll-margin-top:90px}
 .cm-next .cm-all{display:inline-flex;margin-top:34px;font-size:14px;color:var(--cm-ink);text-decoration:none;border-bottom:1px solid var(--cm-ink);padding-bottom:2px}
 @media (max-width:700px){.cm-next .cm-grid{grid-template-columns:1fr}}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}body.case-mode .main,.cm-nav,.cm-pillbg{animation:none!important;transition:none!important}html.cm-js body.case-mode .cm-r{opacity:1;transform:none;transition:none}}
+
+html.cm-js body.case-mode .cm-r{transform:none;filter:none;transition:opacity 1.15s ease .12s}

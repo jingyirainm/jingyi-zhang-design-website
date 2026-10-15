@@ -7,9 +7,12 @@
     { f: 'yi-daily-guidance.html', t: 'Yi 易', s: 'I Ching soundscapes, from installation to app', n: '005', img: 'assets/projects/yi/cs_01_hero.jpg' },
     { f: 'cave-song.html', t: 'Cave Song', s: 'Mobile app for cultural heritage preservation', n: '006', img: 'https://freight.cargo.site/w/1600/q/85/i/C3156658344904556918719000149502/ChatGPT--2026929-10_06_09.png' }
   ];
-  const here = location.pathname.split('/').pop() || 'jingyizhang-design.html';
-  const idx = ORDER.findIndex(o => o.f === here);
-  if (idx < 0) return;
+  const segment=location.pathname.split('/').filter(Boolean).pop();
+  const here = segment.endsWith('.html') ? segment : segment+'.html';
+  let idx = ORDER.findIndex(o => o.f === here);
+  const isWork=idx>=0;
+  if(idx<0){ORDER.push({f:here,t:document.title.split(' — ')[0],s:'',n:'',img:document.querySelector('main img')?.getAttribute('src')||''});idx=ORDER.length-1;}
+  const returnFile=isWork?'work.html':'menu.html';
   document.documentElement.classList.add('cm-js');
   document.body.classList.add('case-mode');
   const main = document.querySelector('main .page-content bodycopy') || document.querySelector('main .page-content');
@@ -29,15 +32,17 @@
   });
   if (!secs.length) main.querySelectorAll('h2').forEach((h, i) => { h.id = 'sec-' + (i + 1); h.setAttribute('data-cm-sec', ''); const l = h.textContent.trim(); secs.push({ el: h, id: h.id, label: l.slice(0, 25) + (l.length > 25 ? '…' : ''), full: l }); });
 
+  if(!secs.length){main.id='sec-overview';secs.push({el:main,id:main.id,label:'Overview',full:'Overview'})}
   /* chrome */
   const prog = document.createElement('div'); prog.className = 'cm-progress'; document.body.appendChild(prog);
-  const back = document.createElement('a'); back.className = 'cm-back'; back.href = 'work.html';
+  const back = document.createElement('a'); back.className = 'cm-back'; back.href = returnFile;
   back.innerHTML = '<svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M8.5 2.5 4 7l4.5 4.5"/></svg>Back to Work';
+  if(!isWork)back.innerHTML=back.innerHTML.replace('Back to Work','Back to Project');
   document.body.appendChild(back);
 
   const next1 = ORDER[(idx + 1) % ORDER.length], next2 = ORDER[(idx + 2) % ORDER.length];
   const nav = document.createElement('nav'); nav.className = 'cm-nav'; nav.setAttribute('aria-label', 'Case study guide');
-  nav.innerHTML = `<a href="work.html" class="cm-strong" data-leave>← Back</a><span class="cm-sep"></span>
+  nav.innerHTML = `<a href="${returnFile}" class="cm-strong" data-leave>← Back</a><span class="cm-sep"></span>
     <div class="cm-track"><span class="cm-pillbg"></span>${secs.map(s => `<a href="#${s.id}" title="${esc(s.full)}">${esc(s.label)}</a>`).join('')}</div>
     <button class="cm-cur" aria-haspopup="true" aria-expanded="false"><span class="cm-curl">${secs[0] ? esc(secs[0].label) : 'Overview'}</span> ▴</button>
     <span class="cm-sep"></span><a href="${next1.f}" class="cm-strong" data-leave>Next →</a>`;
@@ -57,8 +62,8 @@
 
   /* smooth in-page jumps, keyed to the section offset */
   document.addEventListener('click', e => {
-    const a = e.target.closest('a[href^="#sec-"]'); if (!a) return;
-    const t = document.getElementById(a.getAttribute('href').slice(1)); if (!t) return;
+    const a = e.target.closest('a[href*="#sec-"]'); if (!a) return;
+    const t = document.getElementById(new URL(a.href,document.baseURI).hash.slice(1)); if (!t) return;
     e.preventDefault();
     window.scrollTo({ top: t.getBoundingClientRect().top + scrollY - 90, behavior: reduce ? 'auto' : 'smooth' });
     history.replaceState(null, '', '#' + t.id);
@@ -102,4 +107,5 @@
   addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
   addEventListener('resize', () => { const a = active; active = -2; setActive(a); });
   onScroll();
+  document.dispatchEvent(new Event('rs-case-ready'));
 })();

@@ -4,6 +4,7 @@ import re,json
 
 def export(root):
  root=Path(root)
+ for authored in (root/"_src/standalone").glob("*.html"):(root/authored.name).write_text(authored.read_text())
  files=[p for p in root.glob('*.html') if p.name!='jingyizhang-design.html']
  routes={p.name:('./' if p.name=='index.html' else p.stem+'/') for p in files}
  routes['jingyizhang-design.html']='./'
@@ -29,6 +30,10 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   base='./' if p.name=='index.html' else '../'
   s=s.replace('<head>','<head><base data-clean-root href="'+base+'"><script src="assets/clean-routing.js?v=1"></script>',1)
   s=re.sub(r'assets/nav-glow\.js(?:\?v=[^\"]*)?', 'assets/nav-glow.js?v=clean1',s)
+  if p.stem not in ['index','work','menu','about','list','project','mobile-preview']:
+   if 'assets/case.css' not in s:s=s.replace('</head>','<link rel="stylesheet" href="assets/case.css?v=restore2"></head>')
+   if 'assets/case.js' not in s:s=s.replace('</body>','<script src="assets/case.js?v=restore2"></script></body>')
+  s=re.sub(r'assets/(case\.(?:js|css)|mobile\.(?:js|css)|play\.js)(?:\?v=[^"\s>]*)?',r'assets/\1?v=restore2',s)
   target.parent.mkdir(exist_ok=True);target.write_text(s)
   if p.name!='index.html':p.write_text(redirect(routes[p.name]))
  (root/'jingyizhang-design.html').write_text(redirect('./'))

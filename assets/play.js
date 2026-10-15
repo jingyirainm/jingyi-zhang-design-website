@@ -144,7 +144,9 @@
     const desc = rm ? rm.medium : (info ? info.type : lines.slice(1).filter(l => l !== year).join(' · '));
     const intro = info ? info.intro : ((over && over[2]) || '');
     const link = it.querySelector('a.mi-link');
-    const href = (rm && rm.page) ? rm.page + '.html' : (link ? link.getAttribute('href') : (PAGES[title.toLowerCase()] || ''));
+    let href = (rm && rm.page) ? rm.page + '.html' : (link ? link.getAttribute('href') : (PAGES[title.toLowerCase()] || ''));
+    const aliases={'jackery-home-power-3600.html':'jackery-brand-campaign.html','mind-space.html':'mindspace.html','aigc-conceptual.html':'selection-1.html','aigc-fashion.html':'selection-2.html','aigc-product.html':'selection-3.html','nyfw26-post-realm.html':'new-york-fashion-week-fw26.html'};
+    href=aliases[href]||href||({'Afterglow':'afterglow.html','AASIGNAL':'aasignal.html','DREAM QUESTION':'dream-question.html'}[title]||'');
     if (link) link.addEventListener('click', e => e.preventDefault());
     it.dataset.plTitle = title; it.dataset.plDesc = [desc, year].filter(Boolean).join(' · '); it.dataset.plHref = href; it.dataset.plIntro = intro;
     const frame = it.querySelector('.mi-frame'); if (!frame) return;
@@ -168,6 +170,7 @@
 
   let modal = null;
   function open(it) {
+    if(matchMedia('(min-width:768px)').matches && it.dataset.plHref){location.href=new URL(it.dataset.plHref.replace(/\.html$/, '/'),document.baseURI).href;return;}
     close(true);
     const src = it.querySelector('.media'); if (!src) return;
     modal = document.createElement('div'); modal.className = 'pl-modal'; modal.setAttribute('role', 'dialog'); modal.setAttribute('aria-modal', 'true');
