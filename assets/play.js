@@ -168,44 +168,35 @@
     return b;
   }
 
-  let modal = null;
+  let modal = null, savedScroll = 0, selectedCard = null;
+  const panelCSS=document.createElement('style');
+  panelCSS.textContent=`.project-inline-open{overflow-anchor:none}.project-inline{width:100%;max-width:1100px;margin:0 auto;animation:projectAppear .35s ease}.project-inline-back{display:inline-flex;align-items:center;min-height:44px;padding:8px 18px;margin:0 0 24px;border:1px solid #ddd;border-radius:24px;background:transparent;color:inherit;font:inherit;cursor:pointer}.project-inline iframe{display:block;width:100%;border:0;min-height:400px}.project-inline h3{font-weight:400}.project-inline img,.project-inline video{display:block;max-width:100%;height:auto;margin:0 auto}.project-inline p{text-align:left;line-height:1.65}.project-inline-open .mf-wrap{display:none!important}.project-inline-open .pl-sec{display:none!important}.project-inline-open .project-inline{display:block!important}@keyframes projectAppear{from{opacity:0}to{opacity:1}}@media(prefers-reduced-motion:reduce){.project-inline{animation:none}}`;
+  document.head.appendChild(panelCSS);
   function open(it) {
-    close(true);
-    const src = it.querySelector('.media'); if (!src) return;
-    modal = document.createElement('div'); modal.className = 'pl-modal'; modal.setAttribute('role', 'dialog'); modal.setAttribute('aria-modal', 'true');
-    const href = it.dataset.plHref;
-    modal.innerHTML = `<div class="pl-box"><div class="pl-top"><h3></h3>${href ? '<a class="pl-open">Open ↗</a>' : ''}<button type="button" class="pl-x" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M7 7l10 10M17 7L7 17"/></svg></button></div><div class="pl-stage"></div></div>`;
-    const h = modal.querySelector('h3'); h.textContent = it.dataset.plTitle;
-    const rmo = (window.rsMeta || {})[it.dataset.plTitle];
-    const info = rmo ? Object.fromEntries([['Role', rmo.role], ['Medium', rmo.medium], ...(rmo.other || [])].filter(x => x[1])) : null;
-    if (info) {
-      const bar = document.createElement('dl'); bar.className = 'pl-meta';
-      Object.entries(info).forEach(([k, v]) => { const d = document.createElement('div'); const t = document.createElement('dt'); t.textContent = k; const dd = document.createElement('dd'); dd.textContent = v; d.append(t, dd); bar.appendChild(d); });
-      modal.querySelector('.pl-top').after(bar);
-    } else if (it.dataset.plDesc) { const s = document.createElement('small'); s.textContent = it.dataset.plDesc; h.appendChild(s); }
-    if (it.dataset.plIntro) { const p = document.createElement('p'); p.className = 'pl-intro'; p.textContent = it.dataset.plIntro; modal.querySelector('.pl-box').appendChild(p); modal.querySelector('.pl-box').classList.add('has-intro'); }
-    if (href) { const o = modal.querySelector('.pl-open'); o.href = href; o.addEventListener('click', () => close(true)); }
-    const stage = modal.querySelector('.pl-stage');
-    let m;
-    if (src.tagName === 'VIDEO') { m = document.createElement('video'); m.src = src.currentSrc || src.src; m.poster = src.poster || ''; if (src.getAttribute('width')) { m.width = +src.getAttribute('width'); m.height = +src.getAttribute('height'); } m.muted = true; m.loop = true; m.autoplay = true; m.playsInline = true; stage.appendChild(m); stage.appendChild(pill(m)); m.play().catch(() => {}); }
-    else { m = document.createElement('img'); m.src = it.dataset.full || src.currentSrc || src.src; m.alt = it.dataset.plTitle; stage.appendChild(m); }
-    document.body.appendChild(modal);
-    requestAnimationFrame(() => modal.classList.add('on'));
-    modal.addEventListener('click', e => { if (e.target === modal || e.target.closest('.pl-x')) close(); });
-    modal.querySelector('.pl-x').focus();
+    close(true); savedScroll=scrollY;selectedCard=it;
+    modal=document.createElement('section');modal.className='project-inline';
+    const back=document.createElement('button');back.type='button';back.className='project-inline-back';back.textContent='← Back to Projects';back.addEventListener('click',()=>close());modal.appendChild(back);
+    const href=it.dataset.plHref;
+    if(href){
+      const frame=document.createElement('iframe');frame.title=it.dataset.plTitle+' project details';
+      const u=new URL(href,document.baseURI);u.pathname=u.pathname.replace(/\.html$/, '/');u.searchParams.set('embedded','1');frame.src=u.href;frame.allow='autoplay';frame.addEventListener('load',()=>{if(modal?.contains(frame))window.scrollTo({top:0,behavior:'instant'});},{once:true});modal.appendChild(frame);
+    }else{
+      const title=document.createElement('h3');title.textContent=it.dataset.plTitle;modal.appendChild(title);
+      const original=it.querySelector('.media');if(original)modal.appendChild(original.cloneNode(true));
+      const intro=document.createElement('p');intro.textContent=it.dataset.plIntro||it.dataset.plDesc||'';modal.appendChild(intro);
+    }
+    bc.appendChild(modal);document.body.classList.add('project-inline-open');
+    window.rsAutoplay?.(modal);window.scrollTo({top:0,behavior:'instant'});back.focus({preventScroll:true});
   }
   function close(now) {
-    if (!modal) return; const m = modal; modal = null;
-    if (now) return m.remove();
-    m.classList.remove('on'); setTimeout(() => m.remove(), 350);
+    if(!modal)return;modal.remove();modal=null;document.body.classList.remove('project-inline-open');relayout();
+    if(!now){const u=new URL(location.href);u.searchParams.delete('project');history.replaceState(null,'',u);window.scrollTo({top:savedScroll,behavior:'instant'});selectedCard?.focus({preventScroll:true});}
   }
-  addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
-  // leaving the page (soft navigation swaps <main>, or the browser goes back / forward) always clears the expanded view
-  addEventListener('popstate', () => close(true)); addEventListener('pagehide', () => close(true));
-  // once this copy of the page is swapped out (soft navigation), close its own view and stop watching —
-  // a fresh copy of play.js runs for the new page and must not be disturbed
-  const mo = new MutationObserver(() => { if (!document.body.contains(bc)) { close(true); mo.disconnect(); } });
-  mo.observe(document.body, { childList: true, subtree: true });
+  addEventListener('message',e=>{const f=modal?.querySelector('iframe');if(e.origin===location.origin&&f&&e.source===f.contentWindow&&e.data?.type==='project-height'){f.style.height=Math.max(400,Math.min(100000,e.data.height))+'px';}});
+  addEventListener('keydown',e=>{if(e.key==='Escape')close();});
+  addEventListener('pagehide',()=>close(true));
+  const requested=new URLSearchParams(location.search).get('project');
+  if(requested){const card=[...bc.querySelectorAll('.pl-card')].find(it=>(it.dataset.plHref||'').replace(/\.html$/,'').replace(/\/$/,'').split('/').pop()===requested);if(card)open(card);else if(/^[a-z0-9-]+$/.test(requested)){const fallback=document.createElement('div');fallback.dataset.plHref=requested+'.html';fallback.dataset.plTitle=requested.replace(/-/g,' ');open(fallback);}}
 
   // the filter bar sits on the same line as "Index" in the side bar (desktop)
   const align = () => {

@@ -185,3 +185,25 @@
     window.addEventListener('load', function () { schedule(); initMarquees(); });
   });
 })();
+
+/* Muted inline media starts automatically, including dynamically inserted media. */
+(()=>{
+ const enable=root=>root.querySelectorAll('video').forEach(v=>{
+  if(v.dataset.autoReady)return;v.dataset.autoReady='1';
+  v.autoplay=true;v.muted=true;v.defaultMuted=true;v.loop=true;v.playsInline=true;
+  ['autoplay','muted','loop','playsinline'].forEach(k=>v.setAttribute(k,''));
+  const start=()=>v.play().catch(()=>{});v.addEventListener('canplay',start,{once:true});start();
+ });
+ window.rsAutoplay=enable;
+ const embeds=()=>document.querySelectorAll('iframe[src]').forEach(f=>{
+  if(f.dataset.autoEmbed)return;
+  const u=new URL(f.src,document.baseURI);
+  if(/(^|\.)youtube(?:-nocookie)?\.com$/.test(u.hostname)&&u.pathname.startsWith('/embed/')){
+   f.dataset.autoEmbed='1';['autoplay','mute','loop','playsinline'].forEach(k=>u.searchParams.set(k,'1'));u.searchParams.set('playlist',u.pathname.split('/').pop());f.allow='autoplay; fullscreen; picture-in-picture; encrypted-media';f.src=u.href;
+  }else if(u.hostname==='player.vimeo.com'){
+   f.dataset.autoEmbed='1';['autoplay','muted','loop','playsinline'].forEach(k=>u.searchParams.set(k,'1'));f.allow='autoplay; fullscreen; picture-in-picture';f.src=u.href;
+  }
+ });
+ const start=()=>{enable(document);embeds();new MutationObserver(()=>enable(document)).observe(document.body,{childList:true,subtree:true});};
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start);else start();
+})();

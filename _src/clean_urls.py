@@ -28,12 +28,12 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   s=re.sub(r'<base data-clean-root[^>]*>','',s)
   s=re.sub(r'<script src="assets/clean-routing.js[^\"]*"></script>','',s)
   base='./' if p.name=='index.html' else '../'
-  s=s.replace('<head>','<head><base data-clean-root href="'+base+'"><script src="assets/clean-routing.js?v=project3"></script>',1)
+  s=s.replace('<head>','<head><base data-clean-root href="'+base+'"><script src="assets/clean-routing.js?v=inline4"></script>',1)
   s=re.sub(r'assets/nav-glow\.js(?:\?v=[^\"]*)?', 'assets/nav-glow.js?v=clean1',s)
   if p.stem not in ['index','work','menu','about','list','project','mobile-preview']:
-   if 'assets/case.css' not in s:s=s.replace('</head>','<link rel="stylesheet" href="assets/case.css?v=project3"></head>')
-   if 'assets/case.js' not in s:s=s.replace('</body>','<script src="assets/case.js?v=project3"></script></body>')
-  s=re.sub(r'assets/(case\.(?:js|css)|mobile\.(?:js|css)|play\.js)(?:\?v=[^"\s>]*)?',r'assets/\1?v=project3',s)
+   if 'assets/case.css' not in s:s=s.replace('</head>','<link rel="stylesheet" href="assets/case.css?v=inline4"></head>')
+   if 'assets/case.js' not in s:s=s.replace('</body>','<script src="assets/case.js?v=inline4"></script></body>')
+  s=re.sub(r'assets/(case\.(?:js|css)|mobile\.(?:js|css)|play\.js|site\.js)(?:\?v=[^"\s>]*)?',r'assets/\1?v=inline4',s)
   target.parent.mkdir(exist_ok=True);target.write_text(s)
   if p.name!='index.html':p.write_text(redirect(routes[p.name]))
  (root/'jingyizhang-design.html').write_text(redirect('./'))

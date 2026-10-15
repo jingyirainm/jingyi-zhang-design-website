@@ -11,6 +11,24 @@
   const here = segment.endsWith('.html') ? segment : segment+'.html';
   let idx = ORDER.findIndex(o => o.f === here);
   const isWork=idx>=0;
+  if(!isWork){
+    if(new URLSearchParams(location.search).get('embedded')==='1'){
+      document.body.classList.add('project-embedded');
+      const style=document.createElement('style');style.textContent=`html,body{min-height:0!important;height:auto!important;overflow:hidden!important}.pin,.cm-back,.cm-nav,.cm-sheet,.cm-next,.cm-progress{display:none!important}body .main{padding:0!important;margin:0!important;min-height:0!important}body .main>.page{min-height:0!important;justify-content:center!important}body .main .page-layout{width:100%!important;max-width:1054px!important;padding:12px!important;margin:0 auto!important;min-height:0!important}body .main .page-content{width:100%!important;padding:0!important}body .main :is(.dz,.cm-r){opacity:1!important;filter:none!important;transform:none!important}`;document.head.appendChild(style);
+      document.documentElement.style.setProperty('font-size','16px','important');
+      const force=(selector,styles)=>document.querySelectorAll(selector).forEach(el=>Object.entries(styles).forEach(([k,v])=>el.style.setProperty(k,v,'important')));
+      force('main > .page',{'padding':'0','width':'100%','min-height':'0'});
+      force('main .page-layout',{'width':'100%','max-width':'1054px','padding':'16px','margin':'0 auto'});
+      force('main .page-content',{'width':'100%','padding':'0'});
+      document.querySelectorAll('main a, main button').forEach(el=>{if(/^(?:←\s*)?back(?:\s+to\s+(?:project|projects))?$/i.test(el.textContent.trim()))el.remove();});
+      const report=()=>parent.postMessage({type:'project-height',height:Math.ceil(document.querySelector('main').getBoundingClientRect().height)+24},location.origin);
+      new ResizeObserver(report).observe(document.querySelector('main'));addEventListener('load',report);report();
+    }else{
+      const u=new URL('menu/',document.baseURI);u.searchParams.set('project',segment.replace(/\.html$/,''));location.replace(u.href);
+    }
+    return;
+  }
+
   if(idx<0){ORDER.push({f:here,t:document.title.split(' — ')[0],s:'',n:'',img:document.querySelector('main img')?.getAttribute('src')||''});idx=ORDER.length-1;}
   const returnFile=isWork?'work.html':'menu.html';
   document.documentElement.classList.add('cm-js');
