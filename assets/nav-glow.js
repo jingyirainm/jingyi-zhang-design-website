@@ -2,7 +2,7 @@
 (function () {
   const ITEMS = [['jingyizhang-design.html', 'Index'], ['work.html', 'Work'], ['menu.html', 'Project'], ['about.html', 'About']];
   const WORK = ['knotboard', 'reelshort-casting-system', 'addendum-studio', 'vibe-painting', 'yi-iching-soundscapes', 'cave-song'];
-  const PAGE = () => ((location.hash.startsWith('#/') ? location.hash.slice(2) : '') || location.pathname.split('/').pop() || 'jingyizhang-design.html').replace(/\.html$/, '') || 'index';
+  const PAGE = () => ((location.hash.startsWith('#/') ? location.hash.slice(2) : '') || (location.pathname===new URL(document.baseURI).pathname ? 'jingyizhang-design.html' : location.pathname.split('/').filter(Boolean).pop())).replace(/\.html$/, '') || 'index';
 
   const css = document.createElement('style');
   css.textContent = `
@@ -25,7 +25,7 @@ html[data-theme="dark"] .nv::before{background:radial-gradient(closest-side,#1c5
 
   function current(pg) {
     const page = pg || PAGE();
-    if (page === 'index' || page === 'list') return 'jingyizhang-design.html';
+    if (page === 'index' || page === 'list' || page === 'jingyizhang-design') return 'jingyizhang-design.html';
     if (page === 'work' || WORK.includes(page)) return 'work.html';
     if (page === 'about') return 'about.html';
     return 'menu.html';

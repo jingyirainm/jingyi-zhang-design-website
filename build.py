@@ -352,3 +352,7 @@ with open(os.path.join(ROOT, 'index.html'), 'w', encoding='utf-8') as _entry:
     _entry.write(_home_html)
 with open(_home_path, 'w', encoding='utf-8') as _entry:
     _entry.write('<!doctype html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="refresh" content="0;url=./"><title>Jingyi Zhang</title></head><body><a href="./">Visit homepage</a></body></html>')
+
+# Export directory URLs for GitHub Pages after the authored pages are built.
+import runpy as _runpy
+_runpy.run_path(os.path.join(ROOT, "_src", "clean_urls.py"))["export"](ROOT)
